@@ -10,6 +10,7 @@ ipykernel==6.29.5
 isort==5.13.2
 loguru==0.7.2
 pip-chill==1.0.3
+python-box==7.2.0
 python-dotenv==1.0.1
 scikit-learn==1.5.1
 seaborn==0.13.2

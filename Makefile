@@ -62,7 +62,7 @@ pyment_generate_doc:
 ## Update requirements.text
 .PHONY: update_requirements
 update_requirements:
-	echo '-e .' >requirements.txt
+	echo '-e .' > requirements.txt
 	pip-chill >> requirements.txt
 	@echo ">>> requirements.txt updated"
 

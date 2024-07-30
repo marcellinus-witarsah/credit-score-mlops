@@ -6,8 +6,13 @@ import pandas as pd
 
 from credit_score_mlops.config import EVALUATE_CONFIG
 from credit_score_mlops.modeling import WOELogisticRegression
+<<<<<<< HEAD
 from credit_score_mlops.utils import save_json
 from credit_score_mlops.plots import plot_calibration_curve
+=======
+from credit_score_mlops.plots import plot_calibration_curve
+from credit_score_mlops.utils import save_json
+>>>>>>> update
 
 
 def predict():
