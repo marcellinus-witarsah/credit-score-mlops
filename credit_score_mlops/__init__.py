@@ -1,1 +1,3 @@
-from credit_score_mlops import config  # noqa: F401
+"""
+a package for credit score modeling.
+"""

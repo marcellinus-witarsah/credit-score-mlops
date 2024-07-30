@@ -1,9 +1,15 @@
-black
-flake8
-isort
-loguru
-pip
-python-dotenv
-tqdm
-typer
 -e .
+black==24.4.2
+boto3==1.34.131
+credit-score-mlops==0.0.1
+dvc-s3==3.2.0
+ensure==1.0.4
+flake8==7.1.0
+flufl-lock==8.1.0
+ipykernel==6.29.5
+isort==5.13.2
+loguru==0.7.2
+pip-chill==1.0.3
+python-dotenv==1.0.1
+scikit-learn==1.5.1
+seaborn==0.13.2

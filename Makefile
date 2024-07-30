@@ -38,19 +38,33 @@ lint:
 format:
 	black --config pyproject.toml credit_score_mlops
 
-
-
-
 ## Set up python interpreter environment
 .PHONY: create_environment
 create_environment:
-	
 	conda create --name $(PROJECT_NAME) python=$(PYTHON_VERSION) -y
-	
 	@echo ">>> conda env created. Activate with:\nconda activate $(PROJECT_NAME)"
-	
+
+## Create a ipykernel
+.PHONY: create_ipykernel
+create_ipykernel: requirements
+	$(PYTHON_INTERPRETER) -m pip install ipykernel
+	$(PYTHON_INTERPRETER) -m ipykernel install --user --name $(PROJECT_NAME) --display-name "$(PROJECT_NAME) (Python $(PYTHON_VERSION))"
+	@echo ">>> ipykernel created"
 
 
+## Create a documentation using numpydoc format
+.PHONY: pyment_generate_doc
+pyment_generate_doc:
+	pyment -w -o $(DOC_FORMAT) $(PYTHON_FILE)
+	@echo ">>> $(DOC_FORMAT) documentation generated"
+
+
+## Update requirements.text
+.PHONY: update_requirements
+update_requirements:
+	echo '-e .' >requirements.txt
+	pip-chill >> requirements.txt
+	@echo ">>> requirements.txt updated"
 
 #################################################################################
 # PROJECT RULES                                                                 #
