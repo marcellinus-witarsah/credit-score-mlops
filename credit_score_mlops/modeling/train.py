@@ -1,30 +1,33 @@
-from pathlib import Path
+"""
+A module for model training.
+"""
 
-import typer
-from loguru import logger
-from tqdm import tqdm
+import pandas as pd
 
-from credit_score_mlops.config import MODELS_DIR, PROCESSED_DATA_DIR
-
-app = typer.Typer()
+from credit_score_mlops.config import TRAIN_CONFIG
+from credit_score_mlops.modeling import WOELogisticRegression
 
 
-@app.command()
-def main(
-    # ---- REPLACE DEFAULT PATHS AS APPROPRIATE ----
-    features_path: Path = PROCESSED_DATA_DIR / "features.csv",
-    labels_path: Path = PROCESSED_DATA_DIR / "labels.csv",
-    model_path: Path = MODELS_DIR / "model.pkl",
-    # -----------------------------------------
-):
-    # ---- REPLACE THIS WITH YOUR OWN CODE ----
-    logger.info("Training some model...")
-    for i in tqdm(range(10), total=10):
-        if i == 5:
-            logger.info("Something happened for iteration 5.")
-    logger.success("Modeling training complete.")
-    # -----------------------------------------
+def main():
+    # 1. Load data
+    train_df = pd.read_csv(TRAIN_CONFIG.train_file)
+    X_train, y_train = (
+        train_df.drop(columns=[TRAIN_CONFIG.target]),
+        train_df[TRAIN_CONFIG.target],
+    )
+
+    # 2. Initialize model
+    model = WOELogisticRegression.from_parameters(
+        woe_transformer_params=TRAIN_CONFIG.woe_transformer_params,
+        logreg_params=TRAIN_CONFIG.logreg_params,
+    )
+
+    # 3. Train model
+    model.fit(X_train, y_train)
+
+    # 4. Save model
+    model.save(TRAIN_CONFIG.model_file)
 
 
 if __name__ == "__main__":
-    app()
+    main()
