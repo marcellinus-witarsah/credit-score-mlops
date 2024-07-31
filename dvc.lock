@@ -1,16 +1,22 @@
 schema: '2.0'
 stages:
   preprocess_data:
-    cmd: python credit_score_mlops/data_preprocessing.py
+    cmd: python credit_score_mlops/data_preprocessing.py data/raw/credit_risk_dataset.csv
+      data/processed/train.csv data/processed/test.csv
     deps:
     - path: credit_score_mlops/data_preprocessing.py
       hash: md5
-      md5: acbd112f7325b2466bff570f25cbf2e4
-      size: 1219
+      md5: b7b4b8dcd994dfb1c73dd4b830cea92e
+      size: 1605
     - path: data/raw/credit_risk_dataset.csv
       hash: md5
       md5: 9a01768113784fa109745fd8fe031eee
       size: 1804682
+    params:
+      params.yaml:
+        data_preprocessing.random_state: 42
+        data_preprocessing.target: loan_status
+        data_preprocessing.test_size: 0.3
     outs:
     - path: data/processed/test.csv
       hash: md5
