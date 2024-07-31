@@ -20,9 +20,9 @@ def main(
     # 1. Load params:
     params = dvc.api.params_show()
 
+    target = params["target"]
     woe_transformer_params = params["train"]["woe_transformer_params"]
     logreg_params = params["train"]["logreg_params"]
-    target = params["train"]["target"]
 
     # 2. Load data
     train_df = pd.read_csv(train_file)

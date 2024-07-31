@@ -30,7 +30,7 @@ def main(
     # 1. Load params:
     params = dvc.api.params_show()
 
-    target = params["data_preprocessing"]["target"]
+    target = params["target"]
     test_size = params["data_preprocessing"]["test_size"]
     random_state = params["data_preprocessing"]["random_state"]
 
