@@ -1,0 +1,9 @@
+stages:
+  preprocess_data:
+    cmd: python credit_score_mlops/data_preprocessing.py
+    deps:
+    - credit_score_mlops/data_preprocessing.py
+    - data/raw/credit_risk_dataset.csv
+    outs:
+    - data/processed/test.csv
+    - data/processed/train.csv
