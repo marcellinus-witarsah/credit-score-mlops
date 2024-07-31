@@ -2,15 +2,15 @@
 A module for model evaluation.
 """
 
+from pathlib import Path
+
+import dvc.api
 import pandas as pd
 import typer
-import dvc.api
 from dvclive import Live
-from pathlib import Path
+
 from credit_score_mlops.config import MODELS_DIR, PROCESSED_DATA_DIR
 from credit_score_mlops.modeling import WOELogisticRegression
-from credit_score_mlops.plots import plot_calibration_curve
-from credit_score_mlops.utils import save_json
 
 app = typer.Typer()
 
@@ -61,7 +61,7 @@ def main(
             name="train_calibration",
             n_bins=10,
         )
-        
+
         live.log_sklearn_plot(
             kind="calibration",
             labels=y_test,

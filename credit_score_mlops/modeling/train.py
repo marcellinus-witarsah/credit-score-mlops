@@ -2,12 +2,14 @@
 A module for model training.
 """
 
+from pathlib import Path
+
+import dvc.api
 import pandas as pd
 import typer
-from pathlib import Path
+
 from credit_score_mlops.config import MODELS_DIR, PROCESSED_DATA_DIR
 from credit_score_mlops.modeling import WOELogisticRegression
-import dvc.api
 
 app = typer.Typer()
 

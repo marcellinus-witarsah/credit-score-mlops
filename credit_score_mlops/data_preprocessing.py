@@ -3,17 +3,15 @@ a module for data preprocessing.
 """
 
 import time
+from pathlib import Path
 
+import dvc.api
 import pandas as pd
 import typer
-from pathlib import Path
 from sklearn.model_selection import train_test_split
 
-from credit_score_mlops.utils import logger
-
 from credit_score_mlops.config import PROCESSED_DATA_DIR, RAW_DATA_DIR
-import dvc.api
-
+from credit_score_mlops.utils import logger
 
 app = typer.Typer()
 
