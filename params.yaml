@@ -10,15 +10,3 @@ train:
     "bins": 5
   }
   logreg_params: {"random_state": 42}
-
-evaluate:
-  train_scores_file: "reports/train_scores.json"
-  test_scores_file: "reports/test_scores.json"
-  train_calibration_curve_file: "reports/figures/train_calibration_curve.png"
-  test_calibration_curve_file: "reports/figures/test_calibration_curve.png"
-
-inference:
-  model_file: "models/woe_lr.pickle"
-  pdo: 20
-  odds: 1
-  scorecard_points: 500
