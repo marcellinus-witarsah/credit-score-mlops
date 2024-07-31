@@ -6,8 +6,8 @@ stages:
     deps:
     - path: credit_score_mlops/data_preprocessing.py
       hash: md5
-      md5: b7b4b8dcd994dfb1c73dd4b830cea92e
-      size: 1605
+      md5: 6b84d5b2faa0dcf9fb33f55193f11b7d
+      size: 1583
     - path: data/raw/credit_risk_dataset.csv
       hash: md5
       md5: 9a01768113784fa109745fd8fe031eee
@@ -15,8 +15,8 @@ stages:
     params:
       params.yaml:
         data_preprocessing.random_state: 42
-        data_preprocessing.target: loan_status
         data_preprocessing.test_size: 0.3
+        target: loan_status
     outs:
     - path: data/processed/test.csv
       hash: md5
@@ -31,17 +31,17 @@ stages:
     deps:
     - path: credit_score_mlops/modeling/train.py
       hash: md5
-      md5: 12822d0c98231539ffbf217ca5fbd3ee
-      size: 1095
+      md5: e837b2c75d72da5ac2f220a400266c4a
+      size: 1086
     - path: data/processed/train.csv
       hash: md5
       md5: 605eccc3d25fe76586dec96b21a561ed
       size: 1240548
     params:
       params.yaml:
+        target: loan_status
         train.logreg_params:
           random_state: 42
-        train.target: loan_status
         train.woe_transformer_params:
           numerical_columns:
           - person_age
@@ -62,3 +62,33 @@ stages:
       hash: md5
       md5: ef8b2c01dbe246a1e64d027cc3838673
       size: 6607
+  evaluate:
+    cmd: python credit_score_mlops/modeling/evaluate.py models/model.pkl data/processed/train.csv
+      data/processed/test.csv
+    deps:
+    - path: credit_score_mlops/modeling/evaluate.py
+      hash: md5
+      md5: 6379b1b74813fe09b1571a32b1fbd718
+      size: 2198
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 8eeea2e6dff55f6ef2a8e5360c17dc15
+      size: 531749
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 605eccc3d25fe76586dec96b21a561ed
+      size: 1240548
+    params:
+      params.yaml:
+        evaluate.test_scores_file: reports/test_scores.json
+        evaluate.train_scores_file: reports/train_scores.json
+        target: loan_status
+    outs:
+    - path: reports/test_scores.json
+      hash: md5
+      md5: ef72fda2cc50f15a7afa0237833dc8ae
+      size: 173
+    - path: reports/train_scores.json
+      hash: md5
+      md5: 08198cc22816feaa80bfbef4d1ffee10
+      size: 173

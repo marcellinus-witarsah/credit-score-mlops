@@ -10,7 +10,7 @@ stages:
     - data/processed/train.csv
     params:
     - data_preprocessing.random_state
-    - data_preprocessing.target
+    - target
     - data_preprocessing.test_size
   train:
     cmd: python credit_score_mlops/modeling/train.py data/processed/train.csv models/model.pkl
@@ -19,7 +19,23 @@ stages:
     - data/processed/train.csv
     params:
     - train.logreg_params
-    - train.target
+    - target
     - train.woe_transformer_params
     outs:
     - models/model.pkl
+  evaluate:
+    cmd: python credit_score_mlops/modeling/evaluate.py models/model.pkl data/processed/train.csv
+      data/processed/test.csv
+    deps:
+    - credit_score_mlops/modeling/evaluate.py
+    - data/processed/test.csv
+    - data/processed/train.csv
+    params:
+    - target
+    - evaluate.test_scores_file
+    - evaluate.train_scores_file
+    metrics:
+    - reports/test_scores.json:
+        cache: false
+    - reports/train_scores.json:
+        cache: false

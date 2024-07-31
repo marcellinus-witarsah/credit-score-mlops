@@ -1,5 +1,5 @@
+target: "loan_status"
 data_preprocessing:
-  target: "loan_status"
   test_size: 0.3
   random_state: 42
 
@@ -10,15 +10,10 @@ train:
     "bins": 5
   }
   logreg_params: {"random_state": 42}
-  target: "loan_status"
 
 evaluate:
-  train_file: "data/processed/train.csv"
-  test_file: "data/processed/test.csv"
-  model_file: "models/woe_lr.pickle"
-  target: "loan_status"
-  train_metrics_file: "reports/train_metrics.json"
-  test_metrics_file: "reports/test_metrics.json"
+  train_scores_file: "reports/train_scores.json"
+  test_scores_file: "reports/test_scores.json"
   train_calibration_curve_file: "reports/figures/train_calibration_curve.png"
   test_calibration_curve_file: "reports/figures/test_calibration_curve.png"
 
