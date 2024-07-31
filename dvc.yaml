@@ -32,10 +32,24 @@ stages:
     - data/processed/train.csv
     params:
     - target
-    - evaluate.test_scores_file
-    - evaluate.train_scores_file
     metrics:
-    - reports/test_scores.json:
+    - reports/metrics.json:
         cache: false
-    - reports/train_scores.json:
+    plots:
+    - reports/plots/sklearn/train_calibration.json:
+        template: simple
+        x: prob_pred
+        y: prob_true
+        title: Calibration Curve
+        x_label: Mean Predicted Probability
+        y_label: Fraction of Positives
         cache: false
+    - reports/plots/sklearn/test_calibration.json:
+        template: simple
+        x: prob_pred
+        y: prob_true
+        title: Calibration Curve
+        x_label: Mean Predicted Probability
+        y_label: Fraction of Positives
+        cache: false
+

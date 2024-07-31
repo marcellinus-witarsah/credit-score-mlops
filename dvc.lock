@@ -68,8 +68,8 @@ stages:
     deps:
     - path: credit_score_mlops/modeling/evaluate.py
       hash: md5
-      md5: 6379b1b74813fe09b1571a32b1fbd718
-      size: 2198
+      md5: ccd817080922148d9213b6ea12f0f63b
+      size: 2038
     - path: data/processed/test.csv
       hash: md5
       md5: 8eeea2e6dff55f6ef2a8e5360c17dc15
@@ -80,15 +80,17 @@ stages:
       size: 1240548
     params:
       params.yaml:
-        evaluate.test_scores_file: reports/test_scores.json
-        evaluate.train_scores_file: reports/train_scores.json
         target: loan_status
     outs:
-    - path: reports/test_scores.json
+    - path: reports/metrics.json
       hash: md5
-      md5: ef72fda2cc50f15a7afa0237833dc8ae
-      size: 173
-    - path: reports/train_scores.json
+      md5: 2ce2e856bc4bd55fe4219cce974d0b09
+      size: 418
+    - path: reports/plots/sklearn/test_calibration.json
       hash: md5
-      md5: 08198cc22816feaa80bfbef4d1ffee10
-      size: 173
+      md5: bb3790b569af0ed2ef26a0841639aee2
+      size: 1121
+    - path: reports/plots/sklearn/train_calibration.json
+      hash: md5
+      md5: 54c2c50d454022e05e35ca01e39558ac
+      size: 1131
