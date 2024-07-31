@@ -12,3 +12,14 @@ stages:
     - data_preprocessing.random_state
     - data_preprocessing.target
     - data_preprocessing.test_size
+  train:
+    cmd: python credit_score_mlops/modeling/train.py data/processed/train.csv models/model.pkl
+    deps:
+    - credit_score_mlops/modeling/train.py
+    - data/processed/train.csv
+    params:
+    - train.logreg_params
+    - train.target
+    - train.woe_transformer_params
+    outs:
+    - models/model.pkl
