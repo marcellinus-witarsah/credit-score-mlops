@@ -78,6 +78,10 @@ stages:
       hash: md5
       md5: 605eccc3d25fe76586dec96b21a561ed
       size: 1240548
+    - path: models/model.pkl
+      hash: md5
+      md5: ef8b2c01dbe246a1e64d027cc3838673
+      size: 6607
     params:
       params.yaml:
         target: loan_status

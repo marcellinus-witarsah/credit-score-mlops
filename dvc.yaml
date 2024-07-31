@@ -30,6 +30,7 @@ stages:
     - credit_score_mlops/modeling/evaluate.py
     - data/processed/test.csv
     - data/processed/train.csv
+    - models/model.pkl
     params:
     - target
     metrics:
