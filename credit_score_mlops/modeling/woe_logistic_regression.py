@@ -129,20 +129,19 @@ class WOELogisticRegression(BaseEstimator, TransformerMixin):
         )
         return y_pred_proba
 
-    def evaluate(self, X_test: pd.DataFrame, y_true: pd.Series, type: str = "Training") -> dict:
+    def evaluate(self, y_true: pd.Series, y_pred_proba: pd.Series, type: str = "Training") -> dict:
         """
         Evaluate the pipeline on test data.
 
         Args:
-            X_test (pd.DataFrame): Test feature data.
             y_true (pd.Series): True labels for the test data.
+            y_proba (pd.Series): Prediction probability from the test data.
             type (str, optional): Type of evaluation ("Training" or "Validation"). Defaults to "Training".
 
         Returns:
             dict: A dictionary containing key-value pair of ROC AUC, PR AUC, gini, and KS scores.
         """
         start_time = time.perf_counter()
-        y_pred_proba = self.predict_proba(X_test)[:, 1]
         roc_auc_score = roc_auc(y_true, y_pred_proba)
         pr_auc_score = pr_auc(y_true, y_pred_proba)
         gini_score = gini(y_true, y_pred_proba)
