@@ -14,8 +14,8 @@ stages:
       size: 1804682
     - path: params.yaml
       hash: md5
-      md5: 15a9336655f62d07d9695f24558b8492
-      size: 754
+      md5: 2b324580c56361f7b5eba7dd3c26230e
+      size: 665
     params:
       params.yaml:
         data_preprocessing.random_state: 42
@@ -36,8 +36,8 @@ stages:
     deps:
     - path: credit_score_mlops/modeling/train.py
       hash: md5
-      md5: e53c651d9d933be32f445526159cf8b9
-      size: 4115
+      md5: d2951761cdda2371dd5c853ff3e5e8bf
+      size: 3976
     - path: credit_score_mlops/modeling/woe_logistic_regression.py
       hash: md5
       md5: bd8c588d01a13ffa52a5f18210d9f446
@@ -60,11 +60,12 @@ stages:
       size: 1240548
     - path: params.yaml
       hash: md5
-      md5: 15a9336655f62d07d9695f24558b8492
-      size: 754
+      md5: 2b324580c56361f7b5eba7dd3c26230e
+      size: 665
     params:
       params.yaml:
         target: loan_status
+        train.model_name: woe-lr-1.0.0
         train.model_params:
           woe_transformer_params:
             numerical_columns:
@@ -80,34 +81,11 @@ stages:
             - loan_intent
             - loan_grade
             - cb_person_default_on_file
-            bins: 5
+            bins: 8
           logreg_params:
             random_state: 42
         train.test_calibration_curve_file: reports/figures/test_calibration_curve.png
-        train.test_metrics_file: reports/test_metrics.json
         train.train_calibration_curve_file: reports/figures/train_calibration_curve.png
-        train.train_metrics_file: reports/train_metrics.json
-    outs:
-    - path: models/model.pkl
-      hash: md5
-      md5: 7a6d14f57db199a88096fff9c1a8d876
-      size: 6606
-    - path: reports/figures/test_calibration_curve.png
-      hash: md5
-      md5: 3031545fd7b6c5417fa24dc08ae852cd
-      size: 50374
-    - path: reports/figures/train_calibration_curve.png
-      hash: md5
-      md5: edbeae05ac2a31534c229868fd69ee56
-      size: 50733
-    - path: reports/test_metrics.json
-      hash: md5
-      md5: ef72fda2cc50f15a7afa0237833dc8ae
-      size: 173
-    - path: reports/train_metrics.json
-      hash: md5
-      md5: 08198cc22816feaa80bfbef4d1ffee10
-      size: 173
   evaluate:
     cmd: python credit_score_mlops/modeling/evaluate.py models/model.pkl data/processed/train.csv
       data/processed/test.csv

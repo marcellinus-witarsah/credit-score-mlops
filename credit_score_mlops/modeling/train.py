@@ -11,6 +11,7 @@ import mlflow.sklearn
 import pandas as pd
 import typer
 from dotenv import find_dotenv, load_dotenv
+from dvclive import Live
 
 from credit_score_mlops.modeling import WOELogisticRegression
 from credit_score_mlops.plots import plot_calibration_curve
@@ -34,8 +35,6 @@ def main(train_file: Path, test_file: Path, model_file: Path) -> None:
     params = dvc.api.params_show()
     target = params["target"]
     model_params = params["train"]["model_params"]
-    train_metrics_file = params["train"]["train_metrics_file"]
-    test_metrics_file = params["train"]["test_metrics_file"]
     train_calibration_curve_file = params["train"]["train_calibration_curve_file"]
     test_calibration_curve_file = params["train"]["test_calibration_curve_file"]
     model_name = params["train"]["model_name"]
@@ -53,7 +52,7 @@ def main(train_file: Path, test_file: Path, model_file: Path) -> None:
         test_df[target],
     )
 
-    # 3. Track experiment
+    # 3. Track modelling experiment
     mlflow.set_tracking_uri(
         "https://dagshub.com/{}/{}.mlflow".format(
             os.getenv("DAGSHUB_USER_NAME"), os.getenv("DAGSHUB_REPOSITORY_NAME")
@@ -119,8 +118,6 @@ def main(train_file: Path, test_file: Path, model_file: Path) -> None:
 
     # 4. Save model and metrics locally
     model.save(model_file)
-    save_json(train_metrics_file, train_metrics)
-    save_json(test_metrics_file, test_metrics)
 
 
 if __name__ == "__main__":

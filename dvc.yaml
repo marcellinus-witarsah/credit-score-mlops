@@ -25,16 +25,6 @@ stages:
     params:
     - target
     - train.model_params
-    - train.train_metrics_file
-    - train.test_metrics_file
+    - train.model_name
     - train.train_calibration_curve_file
     - train.test_calibration_curve_file
-    metrics:
-    - reports/train_metrics.json:
-        cache: false
-    - reports/test_metrics.json:
-        cache: false
-    outs:
-    - models/model.pkl
-    - reports/figures/train_calibration_curve.png
-    - reports/figures/test_calibration_curve.png
