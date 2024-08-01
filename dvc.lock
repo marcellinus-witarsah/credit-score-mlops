@@ -14,8 +14,8 @@ stages:
       size: 1804682
     - path: params.yaml
       hash: md5
-      md5: 9d7b8055780c73efd1bf2efc246ea36d
-      size: 991
+      md5: a4abfcebb0c71836028334791d96786d
+      size: 654
     params:
       params.yaml:
         data_preprocessing.random_state: 42
@@ -36,8 +36,8 @@ stages:
     deps:
     - path: credit_score_mlops/modeling/train.py
       hash: md5
-      md5: c4662eb7b637e9b0b32704412061af77
-      size: 3977
+      md5: fb43f9d79da234d42ca501bcf4f44916
+      size: 3898
     - path: credit_score_mlops/modeling/woe_logistic_regression.py
       hash: md5
       md5: bd8c588d01a13ffa52a5f18210d9f446
@@ -60,8 +60,8 @@ stages:
       size: 1240548
     - path: params.yaml
       hash: md5
-      md5: 9d7b8055780c73efd1bf2efc246ea36d
-      size: 991
+      md5: a4abfcebb0c71836028334791d96786d
+      size: 654
     params:
       params.yaml:
         target: loan_status
@@ -84,9 +84,7 @@ stages:
           logreg_params:
             random_state: 42
         train.test_calibration_curve_file: reports/figures/test_calibration_curve.png
-        train.test_metrics_file: reports/test_metrics.json
         train.train_calibration_curve_file: reports/figures/train_calibration_curve.png
-        train.train_metrics_file: reports/train_metrics.json
     outs:
     - path: models/model.pkl
       hash: md5

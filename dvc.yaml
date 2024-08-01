@@ -25,8 +25,6 @@ stages:
     params:
     - target
     - train.model_params
-    - train.train_metrics_file
-    - train.test_metrics_file
     - train.train_calibration_curve_file
     - train.test_calibration_curve_file
     outs:

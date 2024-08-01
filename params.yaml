@@ -11,13 +11,6 @@ train:
       "bins": 5
     }
     logreg_params: {"random_state": 42}
-  train_metrics_file: "reports/train_metrics.json"
-  test_metrics_file: "reports/test_metrics.json"
   train_calibration_curve_file: "reports/figures/train_calibration_curve.png"
   test_calibration_curve_file: "reports/figures/test_calibration_curve.png"
-
-evaluate:
-  train_metrics_file: "reports/train_metrics.json"
-  test_metrics_file: "reports/test_metrics.json"
-  train_calibration_curve_file: "reports/figures/train_calibration_curve.png"
-  test_calibration_curve_file: "reports/figures/test_calibration_curve.png"
+  model_name: "woe-lr-1.0.0"

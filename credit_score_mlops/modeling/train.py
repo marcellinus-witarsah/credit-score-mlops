@@ -34,10 +34,9 @@ def main(train_file: Path, test_file: Path, model_file: Path, exp_name: str) -> 
     params = dvc.api.params_show()
     target = params["target"]
     model_params = params["train"]["model_params"]
-    train_metrics_file = params["train"]["train_metrics_file"]
-    test_metrics_file = params["train"]["test_metrics_file"]
     train_calibration_curve_file = params["train"]["train_calibration_curve_file"]
     test_calibration_curve_file = params["train"]["test_calibration_curve_file"]
+    model_name = params["train"]["model_name"]
 
     # 2. Load data
     train_df = pd.read_csv(train_file)
@@ -66,7 +65,7 @@ def main(train_file: Path, test_file: Path, model_file: Path, exp_name: str) -> 
         "DAGSHUB_PASSWORD"
     )  # set up credentials for accessing remote dagshub uri
 
-    with mlflow.start_run(experiment_id=get_or_create_experiment_id(exp_name)):
+    with mlflow.start_run(experiment_id=get_or_create_experiment_id("exp-" + model_name)):
         # Model training
         model = WOELogisticRegression.from_parameters(
             woe_transformer_params=model_params["woe_transformer_params"],
@@ -95,7 +94,7 @@ def main(train_file: Path, test_file: Path, model_file: Path, exp_name: str) -> 
                 mlflow.log_param("{}_{}".format(pipe_name, param_name), param)
 
         # Log model
-        mlflow.sklearn.log_model(model, "WOE Linear Regression")
+        mlflow.sklearn.log_model(model, model_name)
 
         # Plot and log a calibration plot
         plot_calibration_curve(
