@@ -19,6 +19,7 @@ jobs:
       - name: Linting
         run: make lint
       - name: Running Data Preprocessing and Model Training Pipelines
-        run: dvc repro
+        run: |
+          dvc pull
       - name: Cleaning Complied Python Files
         run: make clean
