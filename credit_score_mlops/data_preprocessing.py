@@ -3,33 +3,25 @@ a module for data preprocessing.
 """
 
 import time
-from pathlib import Path
 
-import dvc.api
 import pandas as pd
-import typer
 from sklearn.model_selection import train_test_split
 
+from credit_score_mlops.config import GLOBAL_PARAMS, DATA_PREPROCESSING_PARAMS
 from credit_score_mlops.utils import logger
 
-app = typer.Typer()
 
-
-@app.command()
-def main(
-    raw_data_file: Path,
-    train_file: Path,
-    test_file: Path,
-):
+def main():
     start_time = time.perf_counter()
-    logger.info("Split data")
+    logger.info("Splitting data ...")
 
     # 1. Load params:
-    params = dvc.api.params_show()
-
-    target = params["target"]
-    test_size = params["data_preprocessing"]["test_size"]
-    random_state = params["data_preprocessing"]["random_state"]
+    random_state = GLOBAL_PARAMS.random_state
+    target = GLOBAL_PARAMS.target
+    train_file = GLOBAL_PARAMS.train_file
+    test_file = GLOBAL_PARAMS.test_file
+    raw_data_file = DATA_PREPROCESSING_PARAMS.raw_data_file
+    test_size = DATA_PREPROCESSING_PARAMS.test_size
 
     # 2. Load data:
     df = pd.read_csv(raw_data_file)
@@ -58,8 +50,8 @@ def main(
     test.to_csv(test_file, index=False)
 
     elapsed_time = time.perf_counter() - start_time
-    logger.info("Split data finished in {:.2f} seconds.".format(elapsed_time))
+    logger.info("Splitting data finished in {:.2f} seconds.".format(elapsed_time))
 
 
 if __name__ == "__main__":
-    typer.run(main)
+    main()

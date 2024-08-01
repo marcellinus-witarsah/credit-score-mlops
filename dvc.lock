@@ -1,26 +1,28 @@
 schema: '2.0'
 stages:
   preprocess_data:
-    cmd: python credit_score_mlops/data_preprocessing.py data/raw/credit_risk_dataset.csv
-      data/processed/train.csv data/processed/test.csv
+    cmd: python credit_score_mlops/data_preprocessing.py
     deps:
     - path: credit_score_mlops/data_preprocessing.py
       hash: md5
-      md5: 5d655587d08b38999c539ef06a110343
-      size: 1407
+      md5: 7064260a942c83956d75fba9aaba4644
+      size: 1417
     - path: data/raw/credit_risk_dataset.csv
       hash: md5
       md5: 9a01768113784fa109745fd8fe031eee
       size: 1804682
     - path: params.yaml
       hash: md5
-      md5: afef2e7ff57f15739ba28b9ee38aa28c
-      size: 811
+      md5: 574f397a215f43b2941939cf5fc2fe49
+      size: 1077
     params:
       params.yaml:
-        data_preprocessing.random_state: 42
+        data_preprocessing.raw_data_file: data/raw/credit_risk_dataset.csv
         data_preprocessing.test_size: 0.3
+        random_state: 42
         target: loan_status
+        test_file: data/processed/test.csv
+        train_file: data/processed/train.csv
     outs:
     - path: data/processed/test.csv
       hash: md5
@@ -31,25 +33,12 @@ stages:
       md5: 605eccc3d25fe76586dec96b21a561ed
       size: 1240548
   train:
-    cmd: python credit_score_mlops/modeling/train.py data/processed/train.csv data/processed/test.csv
-      models/model.pkl
+    cmd: python credit_score_mlops/modeling/train.py
     deps:
     - path: credit_score_mlops/modeling/train.py
       hash: md5
-      md5: cbf170dede21ec674c9d83cd95f7f5fa
-      size: 3888
-    - path: credit_score_mlops/modeling/woe_logistic_regression.py
-      hash: md5
-      md5: bd8c588d01a13ffa52a5f18210d9f446
-      size: 6535
-    - path: credit_score_mlops/plots.py
-      hash: md5
-      md5: 5f3f0d3b239953359a4dacfec6dccbdb
-      size: 7644
-    - path: credit_score_mlops/utils.py
-      hash: md5
-      md5: 4f497c3b3a7664780dba08da11670f33
-      size: 3205
+      md5: 5aa2149ba11ddbdcdea32f620c014e05
+      size: 3686
     - path: data/processed/test.csv
       hash: md5
       md5: 8eeea2e6dff55f6ef2a8e5360c17dc15
@@ -60,19 +49,18 @@ stages:
       size: 1240548
     - path: params.yaml
       hash: md5
-      md5: afef2e7ff57f15739ba28b9ee38aa28c
-      size: 811
+      md5: 574f397a215f43b2941939cf5fc2fe49
+      size: 1077
     params:
       params.yaml:
+        mlflow.experiment_name: weight-of-evidence-logistic-regression
+        mlflow.model_name: weight-of-evidence-logistic-regression
+        mlflow.remote_uri: https://dagshub.com/marcellinus-witarsah/credit-score-mlops.mlflow
         target: loan_status
+        test_calibration_curve_file: reports/figures/test_calibration_curve.png
+        test_file: data/processed/test.csv
         train.logistic_regression:
           random_state: 42
-        train.mlflow:
-          experiment_name: weight-of-evidence-logistic-regression
-          model_name: weight-of-evidence-logistic-regression
-          remote_uri: https://dagshub.com/marcellinus-witarsah/credit-score-mlops.mlflow
-        train.test_calibration_curve_file: reports/figures/test_calibration_curve.png
-        train.train_calibration_curve_file: reports/figures/train_calibration_curve.png
         train.weight_of_evidence_transformer:
           numerical_columns:
           - person_age
@@ -88,6 +76,17 @@ stages:
           - loan_grade
           - cb_person_default_on_file
           bins: 5
+        train_calibration_curve_file: reports/figures/train_calibration_curve.png
+        train_file: data/processed/train.csv
+    outs:
+    - path: reports/figures/test_calibration_curve.png
+      hash: md5
+      md5: 3031545fd7b6c5417fa24dc08ae852cd
+      size: 50374
+    - path: reports/figures/train_calibration_curve.png
+      hash: md5
+      md5: edbeae05ac2a31534c229868fd69ee56
+      size: 50733
   evaluate:
     cmd: python credit_score_mlops/modeling/evaluate.py models/model.pkl data/processed/train.csv
       data/processed/test.csv

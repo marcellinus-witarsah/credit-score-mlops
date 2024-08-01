@@ -6,7 +6,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from credit_score_mlops.utils import logger
+from credit_score_mlops.utils import logger, read_yaml
 
 # Load environment variables from .env file if it exists
 load_dotenv()
@@ -25,3 +25,9 @@ MODELS_DIR = PROJ_ROOT / "models"
 
 REPORTS_DIR = PROJ_ROOT / "reports"
 FIGURES_DIR = REPORTS_DIR / "figures"
+
+# Read parameters
+GLOBAL_PARAMS = read_yaml(Path("params.yaml"))
+DATA_PREPROCESSING_PARAMS = GLOBAL_PARAMS.data_preprocessing
+TRAIN_PARAMS = GLOBAL_PARAMS.train
+MLFLOW_PARAMS = GLOBAL_PARAMS.mlflow
