@@ -9,9 +9,9 @@ stages:
     - target
     - data_preprocessing.random_state
     - data_preprocessing.test_size
-    # outs:
-    # - data/processed/test.csv
-    # - data/processed/train.csv
+    outs:
+    - data/processed/test.csv
+    - data/processed/train.csv
   train:
     cmd: python credit_score_mlops/modeling/train.py data/processed/train.csv data/processed/test.csv models/model.pkl
     deps:
@@ -27,7 +27,7 @@ stages:
     - train.model_params
     - train.train_calibration_curve_file
     - train.test_calibration_curve_file
-    # outs:
-    # - models/model.pkl
-    # - reports/figures/train_calibration_curve.png
-    # - reports/figures/test_calibration_curve.png
+    outs:
+    - models/model.pkl
+    - reports/figures/train_calibration_curve.png
+    - reports/figures/test_calibration_curve.png
