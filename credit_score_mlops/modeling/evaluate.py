@@ -7,7 +7,6 @@ from pathlib import Path
 import dvc.api
 import pandas as pd
 import typer
-from dvclive import Live
 
 from credit_score_mlops.config import MODELS_DIR, PROCESSED_DATA_DIR
 from credit_score_mlops.modeling import WOELogisticRegression
@@ -53,28 +52,6 @@ def main(
     test_metrics = model.evaluate(X_test, y_test, "Testing")
 
     # 5. Save results
-    # with Live(dir="reports", dvcyaml=None) as live:
-    #     for metric_name, value in train_scores.items():
-    #         live.log_metric(Path("train") / metric_name, value, plot=False)
-
-    #     for metric_name, value in test_scores.items():
-    #         live.log_metric(Path("test") / metric_name, value, plot=False)
-
-    #     live.log_sklearn_plot(
-    #         kind="calibration",
-    #         labels=y_train,
-    #         predictions=model.predict_proba(X_train)[:, 1],
-    #         name="train_calibration",
-    #         n_bins=10,
-    #     )
-
-    #     live.log_sklearn_plot(
-    #         kind="calibration",
-    #         labels=y_test,
-    #         predictions=model.predict_proba(X_test)[:, 1],
-    #         name="test_calibration",
-    #         n_bins=10,
-    #     )
     save_json(data=train_metrics, path=train_metrics_file)
     plot_calibration_curve(
         y_true=y_train,
