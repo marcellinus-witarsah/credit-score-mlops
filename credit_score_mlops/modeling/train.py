@@ -14,6 +14,7 @@ from dotenv import find_dotenv, load_dotenv
 
 from credit_score_mlops.modeling import WOELogisticRegression
 from credit_score_mlops.plots import plot_calibration_curve
+from credit_score_mlops.utils import save_json
 
 app = typer.Typer()
 load_dotenv(find_dotenv())
@@ -33,6 +34,8 @@ def main(train_file: Path, test_file: Path, model_file: Path) -> None:
     params = dvc.api.params_show()
     target = params["target"]
     model_params = params["train"]["model_params"]
+    train_metrics_file = params["train"]["train_metrics_file"]
+    test_metrics_file = params["train"]["test_metrics_file"]
     train_calibration_curve_file = params["train"]["train_calibration_curve_file"]
     test_calibration_curve_file = params["train"]["test_calibration_curve_file"]
     model_name = params["train"]["model_name"]
@@ -114,8 +117,10 @@ def main(train_file: Path, test_file: Path, model_file: Path) -> None:
         # End run
         mlflow.end_run()
 
-    # 4. Save model locally
+    # 4. Save model and metrics locally
     model.save(model_file)
+    save_json(train_metrics_file, train_metrics)
+    save_json(test_metrics_file, test_metrics)
 
 
 if __name__ == "__main__":
