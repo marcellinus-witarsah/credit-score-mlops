@@ -10,7 +10,6 @@ import pandas as pd
 import typer
 from sklearn.model_selection import train_test_split
 
-from credit_score_mlops.config import PROCESSED_DATA_DIR, RAW_DATA_DIR
 from credit_score_mlops.utils import logger
 
 app = typer.Typer()
@@ -18,9 +17,9 @@ app = typer.Typer()
 
 @app.command()
 def main(
-    raw_data_file: Path = RAW_DATA_DIR / "credit_risk_dataset.csv",
-    train_file: Path = PROCESSED_DATA_DIR / "train.csv",
-    test_file: Path = PROCESSED_DATA_DIR / "test.csv",
+    raw_data_file: Path,
+    train_file: Path,
+    test_file: Path,
 ):
     start_time = time.perf_counter()
     logger.info("Split data")
@@ -63,4 +62,4 @@ def main(
 
 
 if __name__ == "__main__":
-    main()
+    typer.run(main)

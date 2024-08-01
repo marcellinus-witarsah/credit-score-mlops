@@ -1,7 +1,6 @@
 stages:
   preprocess_data:
-    cmd: python credit_score_mlops/data_preprocessing.py data/raw/credit_risk_dataset.csv
-      data/processed/train.csv data/processed/test.csv
+    cmd: python credit_score_mlops/data_preprocessing.py data/raw/credit_risk_dataset.csv data/processed/train.csv data/processed/test.csv
     deps:
     - params.yaml
     - credit_score_mlops/data_preprocessing.py
@@ -14,37 +13,21 @@ stages:
     - data/processed/test.csv
     - data/processed/train.csv
   train:
-    cmd: python credit_score_mlops/modeling/train.py data/processed/train.csv models/model.pkl
+    cmd: python credit_score_mlops/modeling/train.py data/processed/train.csv data/processed/test.csv models/model.pkl
     deps:
     - params.yaml
     - credit_score_mlops/modeling/train.py
+    - credit_score_mlops/modeling/woe_logistic_regression.py
+    - credit_score_mlops/utils.py
+    - credit_score_mlops/plots.py
     - data/processed/train.csv
-    params:
-    - target
-    - train.logreg_params
-    - train.woe_transformer_params
-    outs:
-    - models/model.pkl
-  evaluate:
-    cmd: python credit_score_mlops/modeling/evaluate.py models/model.pkl data/processed/train.csv
-      data/processed/test.csv
-    deps:
-    - params.yaml
-    - credit_score_mlops/modeling/evaluate.py
     - data/processed/test.csv
-    - data/processed/train.csv
-    - models/model.pkl
     params:
     - target
-    - evaluate.train_metrics_file
-    - evaluate.test_metrics_file
-    - evaluate.train_calibration_curve_file
-    - evaluate.test_calibration_curve_file
-    metrics:
-    - reports/train_metrics.json:
-        cache: false
-    - reports/test_metrics.json:
-        cache: false
+    - train.model_params
+    - train.train_calibration_curve_file
+    - train.test_calibration_curve_file
     outs:
+    - models/model.pkl
     - reports/figures/train_calibration_curve.png
     - reports/figures/test_calibration_curve.png

@@ -6,16 +6,16 @@ stages:
     deps:
     - path: credit_score_mlops/data_preprocessing.py
       hash: md5
-      md5: 382427c37a3aaaf45c58ccbb2d700d44
-      size: 1581
+      md5: 548e5732aae93489459b54494cce0025
+      size: 1478
     - path: data/raw/credit_risk_dataset.csv
       hash: md5
       md5: 9a01768113784fa109745fd8fe031eee
       size: 1804682
     - path: params.yaml
       hash: md5
-      md5: a9c3dfa75b25b8932063ba4a811a428a
-      size: 709
+      md5: a4abfcebb0c71836028334791d96786d
+      size: 654
     params:
       params.yaml:
         data_preprocessing.random_state: 42
@@ -31,45 +31,73 @@ stages:
       md5: 605eccc3d25fe76586dec96b21a561ed
       size: 1240548
   train:
-    cmd: python credit_score_mlops/modeling/train.py data/processed/train.csv models/model.pkl
+    cmd: python credit_score_mlops/modeling/train.py data/processed/train.csv data/processed/test.csv
+      models/model.pkl
     deps:
     - path: credit_score_mlops/modeling/train.py
       hash: md5
-      md5: 3770b0b1b04dff724bc9f3f2d6f1ef11
-      size: 1088
+      md5: f5f21c5f8c3e1dd1f54b3d3381ca4b51
+      size: 3883
+    - path: credit_score_mlops/modeling/woe_logistic_regression.py
+      hash: md5
+      md5: bd8c588d01a13ffa52a5f18210d9f446
+      size: 6535
+    - path: credit_score_mlops/plots.py
+      hash: md5
+      md5: 5f3f0d3b239953359a4dacfec6dccbdb
+      size: 7644
+    - path: credit_score_mlops/utils.py
+      hash: md5
+      md5: 4f497c3b3a7664780dba08da11670f33
+      size: 3205
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 8eeea2e6dff55f6ef2a8e5360c17dc15
+      size: 531749
     - path: data/processed/train.csv
       hash: md5
       md5: 605eccc3d25fe76586dec96b21a561ed
       size: 1240548
     - path: params.yaml
       hash: md5
-      md5: a9c3dfa75b25b8932063ba4a811a428a
-      size: 709
+      md5: a4abfcebb0c71836028334791d96786d
+      size: 654
     params:
       params.yaml:
         target: loan_status
-        train.logreg_params:
-          random_state: 42
-        train.woe_transformer_params:
-          numerical_columns:
-          - person_age
-          - person_income
-          - person_emp_length
-          - loan_amnt
-          - loan_int_rate
-          - loan_percent_income
-          - cb_person_cred_hist_length
-          categorical_columns:
-          - person_home_ownership
-          - loan_intent
-          - loan_grade
-          - cb_person_default_on_file
-          bins: 5
+        train.model_params:
+          woe_transformer_params:
+            numerical_columns:
+            - person_age
+            - person_income
+            - person_emp_length
+            - loan_amnt
+            - loan_int_rate
+            - loan_percent_income
+            - cb_person_cred_hist_length
+            categorical_columns:
+            - person_home_ownership
+            - loan_intent
+            - loan_grade
+            - cb_person_default_on_file
+            bins: 5
+          logreg_params:
+            random_state: 42
+        train.test_calibration_curve_file: reports/figures/test_calibration_curve.png
+        train.train_calibration_curve_file: reports/figures/train_calibration_curve.png
     outs:
     - path: models/model.pkl
       hash: md5
-      md5: ef8b2c01dbe246a1e64d027cc3838673
-      size: 6607
+      md5: 7a6d14f57db199a88096fff9c1a8d876
+      size: 6606
+    - path: reports/figures/test_calibration_curve.png
+      hash: md5
+      md5: 3031545fd7b6c5417fa24dc08ae852cd
+      size: 50374
+    - path: reports/figures/train_calibration_curve.png
+      hash: md5
+      md5: edbeae05ac2a31534c229868fd69ee56
+      size: 50733
   evaluate:
     cmd: python credit_score_mlops/modeling/evaluate.py models/model.pkl data/processed/train.csv
       data/processed/test.csv
