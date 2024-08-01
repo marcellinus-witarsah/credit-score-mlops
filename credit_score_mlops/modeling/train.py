@@ -5,7 +5,6 @@ A module for model training.
 import os
 from pathlib import Path
 
-
 import mlflow
 import mlflow.sklearn
 import pandas as pd
