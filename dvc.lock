@@ -6,8 +6,8 @@ stages:
     deps:
     - path: credit_score_mlops/data_preprocessing.py
       hash: md5
-      md5: 6b84d5b2faa0dcf9fb33f55193f11b7d
-      size: 1583
+      md5: 382427c37a3aaaf45c58ccbb2d700d44
+      size: 1581
     - path: data/raw/credit_risk_dataset.csv
       hash: md5
       md5: 9a01768113784fa109745fd8fe031eee
@@ -31,8 +31,8 @@ stages:
     deps:
     - path: credit_score_mlops/modeling/train.py
       hash: md5
-      md5: e837b2c75d72da5ac2f220a400266c4a
-      size: 1086
+      md5: 3770b0b1b04dff724bc9f3f2d6f1ef11
+      size: 1088
     - path: data/processed/train.csv
       hash: md5
       md5: 605eccc3d25fe76586dec96b21a561ed
@@ -68,8 +68,8 @@ stages:
     deps:
     - path: credit_score_mlops/modeling/evaluate.py
       hash: md5
-      md5: ccd817080922148d9213b6ea12f0f63b
-      size: 2038
+      md5: f1426ebae391c7831b3342db726da129
+      size: 2891
     - path: data/processed/test.csv
       hash: md5
       md5: 8eeea2e6dff55f6ef2a8e5360c17dc15
@@ -84,17 +84,25 @@ stages:
       size: 6607
     params:
       params.yaml:
+        evaluate.test_calibration_curve_file: reports/figures/test_calibration_curve.png
+        evaluate.test_metrics_file: reports/test_metrics.json
+        evaluate.train_calibration_curve_file: reports/figures/train_calibration_curve.png
+        evaluate.train_metrics_file: reports/train_metrics.json
         target: loan_status
     outs:
-    - path: reports/metrics.json
+    - path: reports/figures/test_calibration_curve.png
       hash: md5
-      md5: 2ce2e856bc4bd55fe4219cce974d0b09
-      size: 418
-    - path: reports/plots/sklearn/test_calibration.json
+      md5: 3031545fd7b6c5417fa24dc08ae852cd
+      size: 50374
+    - path: reports/figures/train_calibration_curve.png
       hash: md5
-      md5: bb3790b569af0ed2ef26a0841639aee2
-      size: 1121
-    - path: reports/plots/sklearn/train_calibration.json
+      md5: edbeae05ac2a31534c229868fd69ee56
+      size: 50733
+    - path: reports/test_metrics.json
       hash: md5
-      md5: 54c2c50d454022e05e35ca01e39558ac
-      size: 1131
+      md5: ef72fda2cc50f15a7afa0237833dc8ae
+      size: 173
+    - path: reports/train_metrics.json
+      hash: md5
+      md5: 08198cc22816feaa80bfbef4d1ffee10
+      size: 173
