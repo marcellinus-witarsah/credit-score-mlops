@@ -14,8 +14,8 @@ stages:
       size: 1804682
     - path: params.yaml
       hash: md5
-      md5: 2b324580c56361f7b5eba7dd3c26230e
-      size: 665
+      md5: afef2e7ff57f15739ba28b9ee38aa28c
+      size: 811
     params:
       params.yaml:
         data_preprocessing.random_state: 42
@@ -36,8 +36,8 @@ stages:
     deps:
     - path: credit_score_mlops/modeling/train.py
       hash: md5
-      md5: d2951761cdda2371dd5c853ff3e5e8bf
-      size: 3976
+      md5: cbf170dede21ec674c9d83cd95f7f5fa
+      size: 3888
     - path: credit_score_mlops/modeling/woe_logistic_regression.py
       hash: md5
       md5: bd8c588d01a13ffa52a5f18210d9f446
@@ -60,32 +60,34 @@ stages:
       size: 1240548
     - path: params.yaml
       hash: md5
-      md5: 2b324580c56361f7b5eba7dd3c26230e
-      size: 665
+      md5: afef2e7ff57f15739ba28b9ee38aa28c
+      size: 811
     params:
       params.yaml:
         target: loan_status
-        train.model_name: woe-lr-1.0.0
-        train.model_params:
-          woe_transformer_params:
-            numerical_columns:
-            - person_age
-            - person_income
-            - person_emp_length
-            - loan_amnt
-            - loan_int_rate
-            - loan_percent_income
-            - cb_person_cred_hist_length
-            categorical_columns:
-            - person_home_ownership
-            - loan_intent
-            - loan_grade
-            - cb_person_default_on_file
-            bins: 8
-          logreg_params:
-            random_state: 42
+        train.logistic_regression:
+          random_state: 42
+        train.mlflow:
+          experiment_name: weight-of-evidence-logistic-regression
+          model_name: weight-of-evidence-logistic-regression
+          remote_uri: https://dagshub.com/marcellinus-witarsah/credit-score-mlops.mlflow
         train.test_calibration_curve_file: reports/figures/test_calibration_curve.png
         train.train_calibration_curve_file: reports/figures/train_calibration_curve.png
+        train.weight_of_evidence_transformer:
+          numerical_columns:
+          - person_age
+          - person_income
+          - person_emp_length
+          - loan_amnt
+          - loan_int_rate
+          - loan_percent_income
+          - cb_person_cred_hist_length
+          categorical_columns:
+          - person_home_ownership
+          - loan_intent
+          - loan_grade
+          - cb_person_default_on_file
+          bins: 5
   evaluate:
     cmd: python credit_score_mlops/modeling/evaluate.py models/model.pkl data/processed/train.csv
       data/processed/test.csv

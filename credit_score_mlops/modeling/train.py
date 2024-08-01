@@ -5,7 +5,7 @@ A module for model training.
 import os
 from pathlib import Path
 
-import dvc.api
+
 import mlflow
 import mlflow.sklearn
 import pandas as pd
@@ -14,6 +14,7 @@ from dotenv import find_dotenv, load_dotenv
 
 from credit_score_mlops.modeling import WOELogisticRegression
 from credit_score_mlops.plots import plot_calibration_curve
+from credit_score_mlops.utils import read_yaml
 
 app = typer.Typer()
 load_dotenv(find_dotenv())
@@ -30,12 +31,13 @@ def get_or_create_experiment_id(name):
 @app.command()
 def main(train_file: Path, test_file: Path, model_file: Path) -> None:
     # 1. Load params:
-    params = dvc.api.params_show()
+    params = read_yaml(Path("params.yaml"))
     target = params["target"]
-    model_params = params["train"]["model_params"]
+    log_reg_params = params["train"]["logistic_regression"]
+    woe_transformer_params = params["train"]["weight_of_evidence_transformer"]
+    mlflow_params = params["train"]["mlflow"]
     train_calibration_curve_file = params["train"]["train_calibration_curve_file"]
     test_calibration_curve_file = params["train"]["test_calibration_curve_file"]
-    model_name = params["train"]["model_name"]
 
     # 2. Load data
     train_df = pd.read_csv(train_file)
@@ -51,11 +53,7 @@ def main(train_file: Path, test_file: Path, model_file: Path) -> None:
     )
 
     # 3. Track modelling experiment
-    mlflow.set_tracking_uri(
-        "https://dagshub.com/{}/{}.mlflow".format(
-            os.getenv("DAGSHUB_USER_NAME"), os.getenv("DAGSHUB_REPOSITORY_NAME")
-        )
-    )  # set dagshub as the remote URI
+    mlflow.set_tracking_uri(mlflow_params.remote_uri)  # set dagshub as the remote URI
 
     os.environ["MLFLOW_TRACKING_USERNAME"] = os.getenv(
         "DAGSHUB_USER_NAME"
@@ -64,11 +62,13 @@ def main(train_file: Path, test_file: Path, model_file: Path) -> None:
         "DAGSHUB_PASSWORD"
     )  # set up credentials for accessing remote dagshub uri
 
-    with mlflow.start_run(experiment_id=get_or_create_experiment_id("exp-" + model_name)):
+    with mlflow.start_run(
+        experiment_id=get_or_create_experiment_id(mlflow_params.experiment_name)
+    ):
         # Model training
         model = WOELogisticRegression.from_parameters(
-            woe_transformer_params=model_params["woe_transformer_params"],
-            logreg_params=model_params["logreg_params"],
+            woe_transformer_params=woe_transformer_params,
+            logreg_params=log_reg_params,
         )
         model.fit(X_train, y_train)
 
@@ -88,12 +88,11 @@ def main(train_file: Path, test_file: Path, model_file: Path) -> None:
             mlflow.log_metric("Test {}".format(test_metric), test_score)
 
         # Log parameters
-        for pipe_name, params in model_params.items():
-            for param_name, param in params.items():
-                mlflow.log_param("{}_{}".format(pipe_name, param_name), param)
+        mlflow.log_params(woe_transformer_params)
+        mlflow.log_params(log_reg_params)
 
         # Log model
-        mlflow.sklearn.log_model(model, model_name)
+        mlflow.sklearn.log_model(model, mlflow_params.model_name)
 
         # Plot and log a calibration plot
         plot_calibration_curve(

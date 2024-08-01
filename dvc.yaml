@@ -24,7 +24,8 @@ stages:
     - data/processed/test.csv
     params:
     - target
-    - train.model_params
-    - train.model_name
+    - train.weight_of_evidence_transformer
+    - train.logistic_regression
+    - train.mlflow
     - train.train_calibration_curve_file
     - train.test_calibration_curve_file
