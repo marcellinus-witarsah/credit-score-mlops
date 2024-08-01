@@ -36,8 +36,8 @@ stages:
     deps:
     - path: credit_score_mlops/modeling/train.py
       hash: md5
-      md5: 626f34e6729a69b702659cd013ee6e3a
-      size: 4165
+      md5: c4662eb7b637e9b0b32704412061af77
+      size: 3977
     - path: credit_score_mlops/modeling/woe_logistic_regression.py
       hash: md5
       md5: bd8c588d01a13ffa52a5f18210d9f446
@@ -100,14 +100,6 @@ stages:
       hash: md5
       md5: edbeae05ac2a31534c229868fd69ee56
       size: 50733
-    - path: reports/test_metrics.json
-      hash: md5
-      md5: ef72fda2cc50f15a7afa0237833dc8ae
-      size: 173
-    - path: reports/train_metrics.json
-      hash: md5
-      md5: 08198cc22816feaa80bfbef4d1ffee10
-      size: 173
   evaluate:
     cmd: python credit_score_mlops/modeling/evaluate.py models/model.pkl data/processed/train.csv
       data/processed/test.csv

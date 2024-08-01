@@ -81,8 +81,6 @@ def main(train_file: Path, test_file: Path, model_file: Path, exp_name: str) -> 
         # Evaluations
         train_metrics = model.evaluate(y_train, y_train_pred_proba, "Training")
         test_metrics = model.evaluate(y_test, y_test_pred_proba, "Testing")
-        save_json(data=train_metrics, path=train_metrics_file)  # save metrics locally for dvc
-        save_json(data=test_metrics, path=test_metrics_file)  # save metrics locally for dvc
 
         # Log metrics
         for (train_metric, train_score), (test_metric, test_score) in zip(
