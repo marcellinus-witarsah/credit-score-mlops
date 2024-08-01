@@ -10,7 +10,6 @@ import pandas as pd
 import typer
 from sklearn.model_selection import train_test_split
 
-from credit_score_mlops.config import PROCESSED_DATA_DIR, RAW_DATA_DIR
 from credit_score_mlops.utils import logger
 
 app = typer.Typer()

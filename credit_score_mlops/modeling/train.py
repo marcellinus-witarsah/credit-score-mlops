@@ -2,19 +2,18 @@
 A module for model training.
 """
 
+import os
 from pathlib import Path
 
 import dvc.api
-from dotenv import load_dotenv, find_dotenv
 import mlflow
 import mlflow.sklearn
-import os
 import pandas as pd
 import typer
+from dotenv import find_dotenv, load_dotenv
 
 from credit_score_mlops.modeling import WOELogisticRegression
 from credit_score_mlops.plots import plot_calibration_curve
-from credit_score_mlops.utils import save_json
 
 app = typer.Typer()
 load_dotenv(find_dotenv())
@@ -29,7 +28,7 @@ def get_or_create_experiment_id(name):
 
 
 @app.command()
-def main(train_file: Path, test_file: Path, model_file: Path, exp_name: str) -> None:
+def main(train_file: Path, test_file: Path, model_file: Path) -> None:
     # 1. Load params:
     params = dvc.api.params_show()
     target = params["target"]
