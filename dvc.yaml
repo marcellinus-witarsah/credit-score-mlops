@@ -33,24 +33,32 @@ stages:
     - models/model.pkl
     params:
     - target
+    - evaluate.train_metrics_file
+    - evaluate.test_metrics_file
+    - evaluate.train_calibration_curve_file
+    - evaluate.test_calibration_curve_file
     metrics:
-    - reports/metrics.json:
+    - reports/train_metrics.json:
         cache: false
-    plots:
-    - reports/plots/sklearn/train_calibration.json:
-        template: simple
-        x: prob_pred
-        y: prob_true
-        title: Calibration Curve
-        x_label: Mean Predicted Probability
-        y_label: Fraction of Positives
+    - reports/test_metrics.json:
         cache: false
-    - reports/plots/sklearn/test_calibration.json:
-        template: simple
-        x: prob_pred
-        y: prob_true
-        title: Calibration Curve
-        x_label: Mean Predicted Probability
-        y_label: Fraction of Positives
-        cache: false
-
+    outs:
+    - reports/figures/train_calibration_curve.png
+    - reports/figures/test_calibration_curve.png
+    # plots:
+    # - reports/plots/sklearn/train_calibration.json:
+    #     template: simple
+    #     x: prob_pred
+    #     y: prob_true
+    #     title: Calibration Curve
+    #     x_label: Mean Predicted Probability
+    #     y_label: Fraction of Positives
+    #     cache: false
+    # - reports/plots/sklearn/test_calibration.json:
+    #     template: simple
+    #     x: prob_pred
+    #     y: prob_true
+    #     title: Calibration Curve
+    #     x_label: Mean Predicted Probability
+    #     y_label: Fraction of Positives
+    #     cache: false
