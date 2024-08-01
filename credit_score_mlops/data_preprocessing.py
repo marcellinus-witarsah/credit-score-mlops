@@ -18,9 +18,9 @@ app = typer.Typer()
 
 @app.command()
 def main(
-    raw_data_file: Path = RAW_DATA_DIR / "credit_risk_dataset.csv",
-    train_file: Path = PROCESSED_DATA_DIR / "train.csv",
-    test_file: Path = PROCESSED_DATA_DIR / "test.csv",
+    raw_data_file: Path,
+    train_file: Path,
+    test_file: Path,
 ):
     start_time = time.perf_counter()
     logger.info("Split data")
@@ -63,4 +63,4 @@ def main(
 
 
 if __name__ == "__main__":
-    main()
+    typer.run(main)
