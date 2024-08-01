@@ -32,12 +32,12 @@ stages:
       size: 1240548
   train:
     cmd: python credit_score_mlops/modeling/train.py data/processed/train.csv data/processed/test.csv
-      models/model.pkl woe_lr_exp_1
+      models/model.pkl
     deps:
     - path: credit_score_mlops/modeling/train.py
       hash: md5
-      md5: fb43f9d79da234d42ca501bcf4f44916
-      size: 3898
+      md5: f5f21c5f8c3e1dd1f54b3d3381ca4b51
+      size: 3883
     - path: credit_score_mlops/modeling/woe_logistic_regression.py
       hash: md5
       md5: bd8c588d01a13ffa52a5f18210d9f446
