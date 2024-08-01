@@ -7,7 +7,7 @@ import time
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from credit_score_mlops.config import GLOBAL_PARAMS, DATA_PREPROCESSING_PARAMS
+from credit_score_mlops.config import DATA_PREPROCESSING_PARAMS, GLOBAL_PARAMS
 from credit_score_mlops.utils import logger
 
 

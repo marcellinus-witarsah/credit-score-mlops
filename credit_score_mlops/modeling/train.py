@@ -9,7 +9,7 @@ import mlflow.sklearn
 import pandas as pd
 from dotenv import find_dotenv, load_dotenv
 
-from credit_score_mlops.config import GLOBAL_PARAMS, TRAIN_PARAMS, MLFLOW_PARAMS
+from credit_score_mlops.config import GLOBAL_PARAMS, MLFLOW_PARAMS, TRAIN_PARAMS
 from credit_score_mlops.modeling import WOELogisticRegression
 from credit_score_mlops.plots import plot_calibration_curve
 
