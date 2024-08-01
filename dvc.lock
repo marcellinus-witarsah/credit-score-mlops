@@ -12,6 +12,10 @@ stages:
       hash: md5
       md5: 9a01768113784fa109745fd8fe031eee
       size: 1804682
+    - path: params.yaml
+      hash: md5
+      md5: a9c3dfa75b25b8932063ba4a811a428a
+      size: 709
     params:
       params.yaml:
         data_preprocessing.random_state: 42
@@ -37,6 +41,10 @@ stages:
       hash: md5
       md5: 605eccc3d25fe76586dec96b21a561ed
       size: 1240548
+    - path: params.yaml
+      hash: md5
+      md5: a9c3dfa75b25b8932063ba4a811a428a
+      size: 709
     params:
       params.yaml:
         target: loan_status
@@ -68,8 +76,8 @@ stages:
     deps:
     - path: credit_score_mlops/modeling/evaluate.py
       hash: md5
-      md5: f1426ebae391c7831b3342db726da129
-      size: 2891
+      md5: 19cd3663372b74fa4c069ad054051b6e
+      size: 2070
     - path: data/processed/test.csv
       hash: md5
       md5: 8eeea2e6dff55f6ef2a8e5360c17dc15
@@ -82,6 +90,10 @@ stages:
       hash: md5
       md5: ef8b2c01dbe246a1e64d027cc3838673
       size: 6607
+    - path: params.yaml
+      hash: md5
+      md5: a9c3dfa75b25b8932063ba4a811a428a
+      size: 709
     params:
       params.yaml:
         evaluate.test_calibration_curve_file: reports/figures/test_calibration_curve.png
