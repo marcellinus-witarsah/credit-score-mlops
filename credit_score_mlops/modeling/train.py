@@ -11,11 +11,9 @@ import mlflow.sklearn
 import pandas as pd
 import typer
 from dotenv import find_dotenv, load_dotenv
-from dvclive import Live
 
 from credit_score_mlops.modeling import WOELogisticRegression
 from credit_score_mlops.plots import plot_calibration_curve
-from credit_score_mlops.utils import save_json
 
 app = typer.Typer()
 load_dotenv(find_dotenv())
