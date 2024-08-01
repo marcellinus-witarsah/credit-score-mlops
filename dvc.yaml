@@ -3,23 +3,25 @@ stages:
     cmd: python credit_score_mlops/data_preprocessing.py data/raw/credit_risk_dataset.csv
       data/processed/train.csv data/processed/test.csv
     deps:
+    - params.yaml
     - credit_score_mlops/data_preprocessing.py
     - data/raw/credit_risk_dataset.csv
+    params:
+    - target
+    - data_preprocessing.random_state
+    - data_preprocessing.test_size
     outs:
     - data/processed/test.csv
     - data/processed/train.csv
-    params:
-    - data_preprocessing.random_state
-    - target
-    - data_preprocessing.test_size
   train:
     cmd: python credit_score_mlops/modeling/train.py data/processed/train.csv models/model.pkl
     deps:
+    - params.yaml
     - credit_score_mlops/modeling/train.py
     - data/processed/train.csv
     params:
-    - train.logreg_params
     - target
+    - train.logreg_params
     - train.woe_transformer_params
     outs:
     - models/model.pkl
@@ -27,30 +29,22 @@ stages:
     cmd: python credit_score_mlops/modeling/evaluate.py models/model.pkl data/processed/train.csv
       data/processed/test.csv
     deps:
+    - params.yaml
     - credit_score_mlops/modeling/evaluate.py
     - data/processed/test.csv
     - data/processed/train.csv
     - models/model.pkl
     params:
     - target
+    - evaluate.train_metrics_file
+    - evaluate.test_metrics_file
+    - evaluate.train_calibration_curve_file
+    - evaluate.test_calibration_curve_file
     metrics:
-    - reports/metrics.json:
+    - reports/train_metrics.json:
         cache: false
-    plots:
-    - reports/plots/sklearn/train_calibration.json:
-        template: simple
-        x: prob_pred
-        y: prob_true
-        title: Calibration Curve
-        x_label: Mean Predicted Probability
-        y_label: Fraction of Positives
+    - reports/test_metrics.json:
         cache: false
-    - reports/plots/sklearn/test_calibration.json:
-        template: simple
-        x: prob_pred
-        y: prob_true
-        title: Calibration Curve
-        x_label: Mean Predicted Probability
-        y_label: Fraction of Positives
-        cache: false
-
+    outs:
+    - reports/figures/train_calibration_curve.png
+    - reports/figures/test_calibration_curve.png
