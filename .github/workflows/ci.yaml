@@ -29,14 +29,14 @@ jobs:
           dvc remote modify origin --local secret_access_key $SECRET_ACCESS_KEY
       - name: Pulling Data from Remote S3 Remote Storage via DVC
         run: |
-          dvc pull --force
+          dvc pull
       - name: Running Pipelines using DVC
         env:
           DAGSHUB_REPOSITORY_NAME: ${{ secrets.DAGSHUB_REPOSITORY_NAME }}
           DAGSHUB_USER_NAME: ${{ secrets.DAGSHUB_USER_NAME }}
           DAGSHUB_PASSWORD: ${{ secrets.DAGSHUB_PASSWORD }}
         run: |
-          dvc repro
+          dvc repro --force
       - name: Cleaning Complied Python Files
         run: make clean
 
