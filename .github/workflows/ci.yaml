@@ -1,6 +1,9 @@
 name: Continuous Integration
 
-on: [push, workflow_dispatch]
+on:
+  push:
+    branches:
+      - update
   
 permissions: write-all
 jobs:
