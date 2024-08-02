@@ -12,6 +12,7 @@ from dotenv import find_dotenv, load_dotenv
 from credit_score_mlops.config import GLOBAL_PARAMS, MLFLOW_PARAMS, TRAIN_PARAMS
 from credit_score_mlops.modeling import WOELogisticRegression
 from credit_score_mlops.plots import plot_calibration_curve
+from credit_score_mlops.utils import save_json
 
 load_dotenv(find_dotenv())
 
@@ -29,8 +30,11 @@ def main():
     target = GLOBAL_PARAMS.target
     train_file = GLOBAL_PARAMS.train_file
     test_file = GLOBAL_PARAMS.test_file
+    train_metrics_file = GLOBAL_PARAMS.train_metrics_file
+    test_metrics_file = GLOBAL_PARAMS.test_metrics_file
     train_calibration_curve_file = GLOBAL_PARAMS.train_calibration_curve_file
     test_calibration_curve_file = GLOBAL_PARAMS.test_calibration_curve_file
+    model_file = GLOBAL_PARAMS.model_file
     log_reg_params = TRAIN_PARAMS.logistic_regression
     woe_transformer_params = TRAIN_PARAMS.weight_of_evidence_transformer
     remote_uri = MLFLOW_PARAMS.remote_uri
@@ -108,6 +112,11 @@ def main():
 
         # 3.8 End Run
         mlflow.end_run()
+
+    # 4. Save model locally
+    model.save(model_file)
+    save_json(train_metrics_file, train_metrics)
+    save_json(test_metrics_file, test_metrics)
 
 
 if __name__ == "__main__":

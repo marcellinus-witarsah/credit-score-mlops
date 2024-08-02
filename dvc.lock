@@ -5,7 +5,7 @@ stages:
     deps:
     - path: credit_score_mlops/data_preprocessing.py
       hash: md5
-      md5: 7064260a942c83956d75fba9aaba4644
+      md5: 6b426f5623641bee3207686868d70f28
       size: 1417
     - path: data/raw/credit_risk_dataset.csv
       hash: md5
@@ -13,8 +13,8 @@ stages:
       size: 1804682
     - path: params.yaml
       hash: md5
-      md5: 574f397a215f43b2941939cf5fc2fe49
-      size: 1077
+      md5: 428a75936aa93907010d090927495ffd
+      size: 1171
     params:
       params.yaml:
         data_preprocessing.raw_data_file: data/raw/credit_risk_dataset.csv
@@ -37,8 +37,8 @@ stages:
     deps:
     - path: credit_score_mlops/modeling/train.py
       hash: md5
-      md5: 5aa2149ba11ddbdcdea32f620c014e05
-      size: 3686
+      md5: 9a0b6f57d5903f9c16f343bbd3e15e14
+      size: 4041
     - path: data/processed/test.csv
       hash: md5
       md5: 8eeea2e6dff55f6ef2a8e5360c17dc15
@@ -49,16 +49,18 @@ stages:
       size: 1240548
     - path: params.yaml
       hash: md5
-      md5: 574f397a215f43b2941939cf5fc2fe49
-      size: 1077
+      md5: 428a75936aa93907010d090927495ffd
+      size: 1171
     params:
       params.yaml:
         mlflow.experiment_name: weight-of-evidence-logistic-regression
-        mlflow.model_name: weight-of-evidence-logistic-regression
+        mlflow.model_name: woelr
         mlflow.remote_uri: https://dagshub.com/marcellinus-witarsah/credit-score-mlops.mlflow
+        model_file: models/woelr.pkl
         target: loan_status
         test_calibration_curve_file: reports/figures/test_calibration_curve.png
         test_file: data/processed/test.csv
+        test_metrics_file: reports/test_metrics.json
         train.logistic_regression:
           random_state: 42
         train.weight_of_evidence_transformer:
@@ -78,7 +80,12 @@ stages:
           bins: 5
         train_calibration_curve_file: reports/figures/train_calibration_curve.png
         train_file: data/processed/train.csv
+        train_metrics_file: reports/train_metrics.json
     outs:
+    - path: models/woelr.pkl
+      hash: md5
+      md5: b80fbde7dc0f3ad242bf82c5e681676a
+      size: 7185
     - path: reports/figures/test_calibration_curve.png
       hash: md5
       md5: 3031545fd7b6c5417fa24dc08ae852cd
@@ -87,6 +94,14 @@ stages:
       hash: md5
       md5: edbeae05ac2a31534c229868fd69ee56
       size: 50733
+    - path: reports/test_metrics.json
+      hash: md5
+      md5: ef72fda2cc50f15a7afa0237833dc8ae
+      size: 173
+    - path: reports/train_metrics.json
+      hash: md5
+      md5: 08198cc22816feaa80bfbef4d1ffee10
+      size: 173
   evaluate:
     cmd: python credit_score_mlops/modeling/evaluate.py models/model.pkl data/processed/train.csv
       data/processed/test.csv

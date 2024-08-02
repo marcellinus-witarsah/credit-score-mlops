@@ -26,13 +26,22 @@ stages:
     - target
     - train_file
     - test_file
+    - train_metrics_file
+    - test_metrics_file
     - train_calibration_curve_file
     - test_calibration_curve_file
+    - model_file
     - train.weight_of_evidence_transformer
     - train.logistic_regression
     - mlflow.experiment_name
     - mlflow.model_name
     - mlflow.remote_uri
+    metrics:
+    - reports/train_metrics.json:
+        cache: False
+    - reports/test_metrics.json:
+        cache: False
     outs:
+    - models/woelr.pkl
     - reports/figures/train_calibration_curve.png
     - reports/figures/test_calibration_curve.png
