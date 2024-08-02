@@ -38,6 +38,13 @@ jobs:
         run: |
           dvc repro
           dvc push
+      - name: Create CML Report
+        run: |
+          git fetch --depth=1 origin main:main 
+          dvc metrics diff --show-md main >> report.md
+          echo '![](./reports/figures/train_calibration_plot.png "Training Calibration Plot")' >> report.md
+          echo '![](./reports/figures/test_calibration_plot.png "Testing Calibration Plot")' >> report.md
+          cml comment create report.md
       - name: Cleaning Complied Python Files
         run: make clean
 
