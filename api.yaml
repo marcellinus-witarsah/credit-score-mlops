@@ -1,0 +1,5 @@
+logged_model: "runs:/c073714a85234f378aae52da9771b8e1/woelr"
+credit_score_scaling:
+  pdo: 20
+  odds: 1
+  scorecard_points: 500
