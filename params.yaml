@@ -25,6 +25,6 @@ train:
 
 # Parameters containing information for experiment tracking
 mlflow:
-  experiment_name: "weight-of-evidence-logistic-regression"
+  experiment_name: "weight-of-evidence-logistic-regression-exp"
   model_name: "woelr"
   remote_uri: "https://dagshub.com/marcellinus-witarsah/credit-score-mlops.mlflow"

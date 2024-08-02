@@ -93,7 +93,7 @@ def main():
         mlflow.log_params(log_reg_params)
 
         # 3.6 Log model
-        signature = infer_signature(X_train, model=model.predict_proba(X_train))
+        signature = infer_signature(X_train, model.predict_proba(X_train))
         mlflow.sklearn.log_model(sk_model=model, artifact_path=model_name, signature=signature)
 
         # 3.7 Plot and Log a Calibration Plot

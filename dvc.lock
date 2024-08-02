@@ -13,8 +13,8 @@ stages:
       size: 1804682
     - path: params.yaml
       hash: md5
-      md5: 428a75936aa93907010d090927495ffd
-      size: 1171
+      md5: c34c1a4c7eced029fbfc20c86fbe7139
+      size: 1175
     params:
       params.yaml:
         data_preprocessing.raw_data_file: data/raw/credit_risk_dataset.csv
@@ -37,8 +37,8 @@ stages:
     deps:
     - path: credit_score_mlops/modeling/train.py
       hash: md5
-      md5: 9a0b6f57d5903f9c16f343bbd3e15e14
-      size: 4041
+      md5: 8c05c2e56ddccc99c83d75d6a5c5546a
+      size: 4202
     - path: data/processed/test.csv
       hash: md5
       md5: 8eeea2e6dff55f6ef2a8e5360c17dc15
@@ -49,11 +49,11 @@ stages:
       size: 1240548
     - path: params.yaml
       hash: md5
-      md5: 428a75936aa93907010d090927495ffd
-      size: 1171
+      md5: c34c1a4c7eced029fbfc20c86fbe7139
+      size: 1175
     params:
       params.yaml:
-        mlflow.experiment_name: weight-of-evidence-logistic-regression
+        mlflow.experiment_name: weight-of-evidence-logistic-regression-exp
         mlflow.model_name: woelr
         mlflow.remote_uri: https://dagshub.com/marcellinus-witarsah/credit-score-mlops.mlflow
         model_file: models/woelr.pkl
