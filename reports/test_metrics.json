@@ -1,6 +1,6 @@
 {
-    "ROC AUC Score": 0.8716146967317216,
-    "PR AUC Score": 0.7183247007294158,
-    "Gini Score": 0.7432293934634433,
-    "Kolmogorov-Smirnov Score": 0.6121896745267259
+    "ROC AUC Score": 0.8800236693781363,
+    "PR AUC Score": 0.7606742431771898,
+    "Gini Score": 0.7600473387562725,
+    "Kolmogorov-Smirnov Score": 0.6225929251000559
 }

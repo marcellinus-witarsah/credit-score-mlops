@@ -44,9 +44,12 @@ jobs:
             REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git fetch --depth=1 origin main:main 
+          echo 'Metrics Comparison' >> report.md
           dvc metrics diff --md main >> report.md
-          echo '![](reports/figures/train_calibration_plot.png "Training Calibration Plot")' >> report.md
-          echo '![](reports/figures/test_calibration_plot.png "Testing Calibration Plot")' >> report.md
+          echo 'Train Calibration Curve' >> report.md
+          echo '![](./reports/figures/train_calibration_curve.png "Training Calibration Curve")' >> report.md
+          echo 'Test Calibration Curve' >> report.md
+          echo '![](./reports/figures/test_calibration_curve.png "Testing Calibration Curve")' >> report.md
           cml comment create report.md
       - name: Cleaning Complied Python Files
         run: make clean

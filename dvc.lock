@@ -13,7 +13,7 @@ stages:
       size: 1804682
     - path: params.yaml
       hash: md5
-      md5: c34c1a4c7eced029fbfc20c86fbe7139
+      md5: 119ddcc481205d172570153d4fa66c67
       size: 1175
     params:
       params.yaml:
@@ -49,7 +49,7 @@ stages:
       size: 1240548
     - path: params.yaml
       hash: md5
-      md5: c34c1a4c7eced029fbfc20c86fbe7139
+      md5: 119ddcc481205d172570153d4fa66c67
       size: 1175
     params:
       params.yaml:
@@ -77,30 +77,30 @@ stages:
           - loan_intent
           - loan_grade
           - cb_person_default_on_file
-          bins: 5
+          bins: 8
         train_calibration_curve_file: reports/figures/train_calibration_curve.png
         train_file: data/processed/train.csv
         train_metrics_file: reports/train_metrics.json
     outs:
     - path: models/woelr.pkl
       hash: md5
-      md5: b80fbde7dc0f3ad242bf82c5e681676a
-      size: 7185
+      md5: bc703807001cb96277706bb73ac4ef66
+      size: 8736
     - path: reports/figures/test_calibration_curve.png
       hash: md5
-      md5: 3031545fd7b6c5417fa24dc08ae852cd
-      size: 50374
+      md5: f04f61a9e8d674de84676aad3b4696a0
+      size: 51723
     - path: reports/figures/train_calibration_curve.png
       hash: md5
-      md5: edbeae05ac2a31534c229868fd69ee56
-      size: 50733
+      md5: ddfc5a53ec5378311656f5a0fca14224
+      size: 52033
     - path: reports/test_metrics.json
       hash: md5
-      md5: ef72fda2cc50f15a7afa0237833dc8ae
+      md5: 459a8765b739ab426318bdc3851659ba
       size: 173
     - path: reports/train_metrics.json
       hash: md5
-      md5: 08198cc22816feaa80bfbef4d1ffee10
+      md5: b2235fbfafea7f66e6900ede7c4e2c45
       size: 173
   evaluate:
     cmd: python credit_score_mlops/modeling/evaluate.py models/model.pkl data/processed/train.csv
