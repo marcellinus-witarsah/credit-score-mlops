@@ -8,6 +8,7 @@ import mlflow
 import mlflow.sklearn
 import pandas as pd
 from dotenv import find_dotenv, load_dotenv
+from mlflow.models import infer_signature
 
 from credit_score_mlops.config import GLOBAL_PARAMS, MLFLOW_PARAMS, TRAIN_PARAMS
 from credit_score_mlops.modeling import WOELogisticRegression
@@ -92,7 +93,8 @@ def main():
         mlflow.log_params(log_reg_params)
 
         # 3.6 Log model
-        mlflow.sklearn.log_model(model, model_name)
+        signature = infer_signature(X_train, model=model.predict_proba(X_train))
+        mlflow.sklearn.log_model(sk_model=model, artifact_path=model_name, signature=signature)
 
         # 3.7 Plot and Log a Calibration Plot
         plot_calibration_curve(

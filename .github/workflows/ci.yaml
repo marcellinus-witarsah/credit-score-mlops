@@ -36,7 +36,7 @@ jobs:
           DAGSHUB_USER_NAME: ${{ secrets.DAGSHUB_USER_NAME }}
           DAGSHUB_PASSWORD: ${{ secrets.DAGSHUB_PASSWORD }}
         run: |
-          dvc repro --force
+          dvc repro
           dvc push
       - name: Cleaning Complied Python Files
         run: make clean
