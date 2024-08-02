@@ -3,19 +3,18 @@ A module for model training.
 """
 
 import os
-from pathlib import Path
 
-import dvc.api
 import mlflow
 import mlflow.sklearn
 import pandas as pd
-import typer
 from dotenv import find_dotenv, load_dotenv
+from mlflow.models import infer_signature
 
+from credit_score_mlops.config import GLOBAL_PARAMS, MLFLOW_PARAMS, TRAIN_PARAMS
 from credit_score_mlops.modeling import WOELogisticRegression
 from credit_score_mlops.plots import plot_calibration_curve
+from credit_score_mlops.utils import save_json
 
-app = typer.Typer()
 load_dotenv(find_dotenv())
 
 
@@ -27,15 +26,21 @@ def get_or_create_experiment_id(name):
     return exp.experiment_id
 
 
-@app.command()
-def main(train_file: Path, test_file: Path, model_file: Path) -> None:
+def main():
     # 1. Load params:
-    params = dvc.api.params_show()
-    target = params["target"]
-    model_params = params["train"]["model_params"]
-    train_calibration_curve_file = params["train"]["train_calibration_curve_file"]
-    test_calibration_curve_file = params["train"]["test_calibration_curve_file"]
-    model_name = params["train"]["model_name"]
+    target = GLOBAL_PARAMS.target
+    train_file = GLOBAL_PARAMS.train_file
+    test_file = GLOBAL_PARAMS.test_file
+    train_metrics_file = GLOBAL_PARAMS.train_metrics_file
+    test_metrics_file = GLOBAL_PARAMS.test_metrics_file
+    train_calibration_curve_file = GLOBAL_PARAMS.train_calibration_curve_file
+    test_calibration_curve_file = GLOBAL_PARAMS.test_calibration_curve_file
+    model_file = GLOBAL_PARAMS.model_file
+    log_reg_params = TRAIN_PARAMS.logistic_regression
+    woe_transformer_params = TRAIN_PARAMS.weight_of_evidence_transformer
+    remote_uri = MLFLOW_PARAMS.remote_uri
+    experiment_name = MLFLOW_PARAMS.experiment_name
+    model_name = MLFLOW_PARAMS.model_name
 
     # 2. Load data
     train_df = pd.read_csv(train_file)
@@ -50,12 +55,8 @@ def main(train_file: Path, test_file: Path, model_file: Path) -> None:
         test_df[target],
     )
 
-    # 3. Track experiment
-    mlflow.set_tracking_uri(
-        "https://dagshub.com/{}/{}.mlflow".format(
-            os.getenv("DAGSHUB_USER_NAME"), os.getenv("DAGSHUB_REPOSITORY_NAME")
-        )
-    )  # set dagshub as the remote URI
+    # 3. Track modelling experiment
+    mlflow.set_tracking_uri(remote_uri)  # set dagshub as the remote URI
 
     os.environ["MLFLOW_TRACKING_USERNAME"] = os.getenv(
         "DAGSHUB_USER_NAME"
@@ -64,38 +65,38 @@ def main(train_file: Path, test_file: Path, model_file: Path) -> None:
         "DAGSHUB_PASSWORD"
     )  # set up credentials for accessing remote dagshub uri
 
-    with mlflow.start_run(experiment_id=get_or_create_experiment_id("exp-" + model_name)):
-        # Model training
+    with mlflow.start_run(experiment_id=get_or_create_experiment_id(experiment_name)):
+        # 3.1 Model training
         model = WOELogisticRegression.from_parameters(
-            woe_transformer_params=model_params["woe_transformer_params"],
-            logreg_params=model_params["logreg_params"],
+            woe_transformer_params=woe_transformer_params,
+            logreg_params=log_reg_params,
         )
         model.fit(X_train, y_train)
 
-        # Predictions
+        # 3.2 Predictions
         y_train_pred_proba = model.predict_proba(X_train)[:, 1]
         y_test_pred_proba = model.predict_proba(X_test)[:, 1]
 
-        # Evaluations
+        # 3.3 Evaluations
         train_metrics = model.evaluate(y_train, y_train_pred_proba, "Training")
         test_metrics = model.evaluate(y_test, y_test_pred_proba, "Testing")
 
-        # Log metrics
+        # 3.4 Log Metrics
         for (train_metric, train_score), (test_metric, test_score) in zip(
             train_metrics.items(), test_metrics.items()
         ):
             mlflow.log_metric("Train {}".format(train_metric), train_score)
             mlflow.log_metric("Test {}".format(test_metric), test_score)
 
-        # Log parameters
-        for pipe_name, params in model_params.items():
-            for param_name, param in params.items():
-                mlflow.log_param("{}_{}".format(pipe_name, param_name), param)
+        # 3.5 Log Parameters
+        mlflow.log_params(woe_transformer_params)
+        mlflow.log_params(log_reg_params)
 
-        # Log model
-        mlflow.sklearn.log_model(model, model_name)
+        # 3.6 Log model
+        signature = infer_signature(X_train, model.predict_proba(X_train))
+        mlflow.sklearn.log_model(sk_model=model, artifact_path=model_name, signature=signature)
 
-        # Plot and log a calibration plot
+        # 3.7 Plot and Log a Calibration Plot
         plot_calibration_curve(
             y_true=y_train,
             y_pred_proba=y_train_pred_proba,
@@ -111,12 +112,14 @@ def main(train_file: Path, test_file: Path, model_file: Path) -> None:
         )
         mlflow.log_artifact(test_calibration_curve_file)
 
-        # End run
+        # 3.8 End Run
         mlflow.end_run()
 
     # 4. Save model locally
     model.save(model_file)
+    save_json(train_metrics_file, train_metrics)
+    save_json(test_metrics_file, test_metrics)
 
 
 if __name__ == "__main__":
-    typer.run(main)
+    main()

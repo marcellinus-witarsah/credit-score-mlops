@@ -1,33 +1,47 @@
 stages:
   preprocess_data:
-    cmd: python credit_score_mlops/data_preprocessing.py data/raw/credit_risk_dataset.csv data/processed/train.csv data/processed/test.csv
+    cmd: python credit_score_mlops/data_preprocessing.py
     deps:
     - params.yaml
     - credit_score_mlops/data_preprocessing.py
     - data/raw/credit_risk_dataset.csv
     params:
     - target
-    - data_preprocessing.random_state
+    - random_state
+    - train_file
+    - test_file
+    - data_preprocessing.raw_data_file
     - data_preprocessing.test_size
     outs:
     - data/processed/test.csv
     - data/processed/train.csv
   train:
-    cmd: python credit_score_mlops/modeling/train.py data/processed/train.csv data/processed/test.csv models/model.pkl
+    cmd: python credit_score_mlops/modeling/train.py
     deps:
     - params.yaml
     - credit_score_mlops/modeling/train.py
-    - credit_score_mlops/modeling/woe_logistic_regression.py
-    - credit_score_mlops/utils.py
-    - credit_score_mlops/plots.py
     - data/processed/train.csv
     - data/processed/test.csv
     params:
     - target
-    - train.model_params
-    - train.train_calibration_curve_file
-    - train.test_calibration_curve_file
+    - train_file
+    - test_file
+    - train_metrics_file
+    - test_metrics_file
+    - train_calibration_curve_file
+    - test_calibration_curve_file
+    - model_file
+    - train.weight_of_evidence_transformer
+    - train.logistic_regression
+    - mlflow.experiment_name
+    - mlflow.model_name
+    - mlflow.remote_uri
+    metrics:
+    - reports/train_metrics.json:
+        cache: False
+    - reports/test_metrics.json:
+        cache: False
     outs:
-    - models/model.pkl
+    - models/woelr.pkl
     - reports/figures/train_calibration_curve.png
     - reports/figures/test_calibration_curve.png

@@ -1,16 +1,30 @@
+# Global parameters
+random_state: 42
 target: "loan_status"
-data_preprocessing:
-  test_size: 0.3
-  random_state: 42
+train_file: "data/processed/train.csv"
+test_file: "data/processed/test.csv"
+train_metrics_file: "reports/train_metrics.json"
+test_metrics_file: "reports/test_metrics.json"
+train_calibration_curve_file: "reports/figures/train_calibration_curve.png"
+test_calibration_curve_file: "reports/figures/test_calibration_curve.png"
+model_file: "models/woelr.pkl"
 
+# Parameters for data preprocessing
+data_preprocessing:
+  raw_data_file: "data/raw/credit_risk_dataset.csv"
+  test_size: 0.3
+
+# Parameters about model training
 train:
-  model_params:
-    woe_transformer_params: {
-      "numerical_columns": ["person_age", "person_income", "person_emp_length", "loan_amnt", "loan_int_rate", "loan_percent_income", "cb_person_cred_hist_length"],
-      "categorical_columns": ["person_home_ownership", "loan_intent", "loan_grade", "cb_person_default_on_file"],
-      "bins": 5
-    }
-    logreg_params: {"random_state": 42}
-  train_calibration_curve_file: "reports/figures/train_calibration_curve.png"
-  test_calibration_curve_file: "reports/figures/test_calibration_curve.png"
-  model_name: "woe-lr-1.0.0"
+  weight_of_evidence_transformer:
+    numerical_columns: ["person_age", "person_income", "person_emp_length", "loan_amnt", "loan_int_rate", "loan_percent_income", "cb_person_cred_hist_length"]
+    categorical_columns: ["person_home_ownership", "loan_intent", "loan_grade", "cb_person_default_on_file"]
+    bins: 5
+  logistic_regression:
+    random_state: 42
+
+# Parameters containing information for experiment tracking
+mlflow:
+  experiment_name: "weight-of-evidence-logistic-regression-exp"
+  model_name: "woelr"
+  remote_uri: "https://dagshub.com/marcellinus-witarsah/credit-score-mlops.mlflow"
