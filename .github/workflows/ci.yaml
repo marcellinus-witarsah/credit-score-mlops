@@ -45,8 +45,8 @@ jobs:
         run: |
           git fetch --depth=1 origin main:main 
           dvc metrics diff --md main >> report.md
-          echo '![](./reports/figures/train_calibration_plot.png "Training Calibration Plot")' >> report.md
-          echo '![](./reports/figures/test_calibration_plot.png "Testing Calibration Plot")' >> report.md
+          echo '![](./reports/figures/train_calibration_curve.png "Training Calibration Curve")' >> report.md
+          echo '![](./reports/figures/test_calibration_curve.png "Testing Calibration Curve")' >> report.md
           cml comment create report.md
       - name: Cleaning Complied Python Files
         run: make clean
