@@ -27,6 +27,8 @@ REPORTS_DIR = PROJ_ROOT / "reports"
 FIGURES_DIR = REPORTS_DIR / "figures"
 
 # Read parameters
+GLOBAL_API = read_yaml(Path("api.yaml"))
+CREDIT_SCORE_SCALING_PARAMS = GLOBAL_API.credit_score_scaling
 GLOBAL_PARAMS = read_yaml(Path("params.yaml"))
 DATA_PREPROCESSING_PARAMS = GLOBAL_PARAMS.data_preprocessing
 TRAIN_PARAMS = GLOBAL_PARAMS.train
