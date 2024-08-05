@@ -71,7 +71,20 @@ def prepare_credit_scorer():
 credit_scorer = prepare_credit_scorer()
 
 
-@app.post("/calculate_credit_score")
+@app.get("/")
+async def info() -> dict:
+    """Calculate credit score based on the loan applicant data.
+
+    Args:
+        loan_applicant_data (LoanApplicantData): Load applicant data.
+
+    Returns:
+        CreditScore: Credits score results returned in dictionary format.
+    """
+    return {"message": "Welcome to Credit Score API!"}
+
+
+@app.post("/calculate-credit-score")
 async def calculate_credit_score(loan_applicant_data: LoanApplicantData) -> CreditScore:
     """Calculate credit score based on the loan applicant data.
 

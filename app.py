@@ -47,7 +47,7 @@ def main():
 
     if st.button("Submit"):
         st.header("Credit Score")
-        ENDPOINT = "http://127.0.0.1:8000/calculate_credit_score"
+        ENDPOINT = "http://127.0.0.1:8080/calculate-credit-score"
         input = {
             "person_age": person_age,
             "person_income": person_income,
