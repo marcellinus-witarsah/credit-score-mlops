@@ -84,7 +84,7 @@ async def info() -> dict:
     return {"message": "Welcome to Credit Score API!"}
 
 
-@app.post("/calculate-credit-score/")
+@app.post("/calculate-credit-score")
 async def calculate_credit_score(loan_applicant_data: LoanApplicantData) -> CreditScore:
     """Calculate credit score based on the loan applicant data.
 

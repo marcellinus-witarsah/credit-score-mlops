@@ -47,7 +47,7 @@ def main():
 
     if st.button("Submit"):
         st.header("Credit Score")
-        ENDPOINT = "http://credit-score-api:8080/calculate-credit-score"
+        ENDPOINT = "https://creditscoreapi.proudocean-9de22231.southeastasia.azurecontainerapps.io/calculate-credit-score"
         input = {
             "person_age": person_age,
             "person_income": person_income,
@@ -65,6 +65,7 @@ def main():
             url=ENDPOINT, json=input, headers={"Content-Type": "application/json"}
         )
         result = prediction.json()
+        print(result)
         st.write(result["credit_score"])
 
 
