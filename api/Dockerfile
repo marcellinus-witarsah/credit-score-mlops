@@ -6,8 +6,8 @@ RUN apt-get update && apt-get -y install sudo
 WORKDIR /app
 
 # Set working from directory
-COPY ./fastapi_deployment/api.py /app/api.py
-COPY ./fastapi_deployment/requirements.txt /app/requirements.txt
+COPY ./api/api.py /app/api.py
+COPY ./api/requirements.txt /app/requirements.txt
 COPY ./credit_score_mlops /app/credit_score_mlops
 COPY ./params.yaml /app/params.yaml
 COPY ./api.yaml /app/api.yaml
