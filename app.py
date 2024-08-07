@@ -2,6 +2,10 @@ import os
 import streamlit as st
 import requests
 
+from dotenv import find_dotenv, load_dotenv
+
+load_dotenv(find_dotenv())
+
 CREDIT_SCORE_API_ENDPOINT = api_key = os.getenv("CREDIT_SCORE_API_ENDPOINT")
 
 
