@@ -36,8 +36,5 @@ jobs:
           containerAppName: creditscoreservice
           resourceGroup: personalprojects
           imageToBuild: creditscorecr.azurecr.io/creditscoreservice:${{ github.sha }}
+          environmentVariables: DAGSHUB_USER_NAME=${{ secrets.DAGSHUB_USER_NAME }} DAGSHUB_REPOSITORY_NAME=${{ secrets.DAGSHUB_REPOSITORY_NAME }} DAGSHUB_PASSWORD=${{ secrets.DAGSHUB_PASSWORD }}
           
-            
-
-     
-
