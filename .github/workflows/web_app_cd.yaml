@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: '3.10.14' 
       - name: Install Packages
-        run: requirements_web_app
+        run: make requirements_web_app
       - name: Formatting
         run: make format
       - name: Linting
