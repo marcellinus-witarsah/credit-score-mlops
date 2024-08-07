@@ -15,7 +15,7 @@ COPY ./README.md /app/README.md
 COPY ./pyproject.toml /app/pyproject.toml
 COPY ./setup.cfg /app/setup.cfg
 COPY ./Makefile /app/Makefile
-COPY ./.env /app/.env
+# COPY ./.env /app/.env
 
 # Run make requirements
 RUN sudo apt-get -y install make
