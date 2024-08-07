@@ -75,7 +75,7 @@ hf-login:
 	huggingface-cli login --token $(HF) --add-to-git-credential
 
 .PHONY: hf-push-web-app
-push-web-app:
+hf-push-web-app:
 	huggingface-cli upload marcellinus-witarsah/credit-score-app-v2 ./app/app.py --repo-type=space --commit-message="Push app.py file"
 	huggingface-cli upload marcellinus-witarsah/credit-score-app-v2 ./app/requirements.txt --repo-type=space --commit-message="Push requirements.txt"
 
