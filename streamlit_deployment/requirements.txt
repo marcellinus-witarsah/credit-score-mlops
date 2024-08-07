@@ -1,2 +1,0 @@
-requests-toolbelt==1.0.0
-streamlit==1.37.0

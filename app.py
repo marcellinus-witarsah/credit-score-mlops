@@ -1,5 +1,8 @@
+import os
 import streamlit as st
 import requests
+
+CREDIT_SCORE_API_ENDPOINT = api_key = os.getenv("CREDIT_SCORE_API_ENDPOINT")
 
 
 def main():
@@ -47,7 +50,6 @@ def main():
 
     if st.button("Submit"):
         st.header("Credit Score")
-        ENDPOINT = "https://creditscoreapi.proudocean-9de22231.southeastasia.azurecontainerapps.io/calculate-credit-score"
         input = {
             "person_age": person_age,
             "person_income": person_income,
@@ -62,7 +64,7 @@ def main():
             "cb_person_cred_hist_length": cb_person_cred_hist_length,
         }
         prediction = requests.post(
-            url=ENDPOINT, json=input, headers={"Content-Type": "application/json"}
+            url=CREDIT_SCORE_API_ENDPOINT, json=input, headers={"Content-Type": "application/json"}
         )
         result = prediction.json()
         print(result)
