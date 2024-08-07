@@ -17,6 +17,11 @@ requirements:
 	$(PYTHON_INTERPRETER) -m pip install -U pip
 	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
 
+.PHONY: requirements_web_app
+requirements_web_app:
+	$(PYTHON_INTERPRETER) -m pip install -U pip
+	$(PYTHON_INTERPRETER) -m pip install -r app/requirements.txt
+
 ## Delete all compiled Python files
 .PHONY: clean
 clean:
@@ -63,6 +68,19 @@ update_requirements:
 	pip-chill >> requirements.txt
 	@echo ">>> requirements.txt updated"
 
+## Push web application to the HuggingFace Spaces
+.PHONY: hf-login
+hf-login:
+	pip install -U "huggingface_hub[cli]"
+	huggingface-cli login --token $(HF) --add-to-git-credential
+
+.PHONY: hf-push-web-app
+push-web-app:
+	huggingface-cli upload marcellinus-witarsah/credit-score-app-v2 ./app/app.py --repo-type=space --commit-message="Push app.py file"
+	huggingface-cli upload marcellinus-witarsah/credit-score-app-v2 ./app/requirements.txt --repo-type=space --commit-message="Push requirements.txt"
+
+.PHONY: deploy
+deploy: hf-login hf-push-web-app
 #################################################################################
 # PROJECT RULES                                                                 #
 #################################################################################
