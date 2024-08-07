@@ -20,7 +20,7 @@ requirements:
 .PHONY: requirements_web_app
 requirements_web_app:
 	$(PYTHON_INTERPRETER) -m pip install -U pip
-	$(PYTHON_INTERPRETER) -m pip install -r app/requirements.txt
+	$(PYTHON_INTERPRETER) -m pip install -r ./app/requirements.txt
 
 ## Delete all compiled Python files
 .PHONY: clean
