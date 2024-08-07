@@ -1,0 +1,29 @@
+name: Web Application Continuous Deployment
+
+on:
+  push:
+    branches:
+      - web-app-dev
+  workflow_dispatch:
+  
+permissions: write-all
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.14' 
+      - name: Install Packages
+        run: requirements_web_app
+      - name: Formatting
+        run: make format
+      - name: Linting
+        run: make lint
+      - name: Deploy Web Application to HuggingFace Spaces
+        env:
+          HF: ${{ secrets.HF }}
+        run: make deploy HF=$HF
+      - name: Cleaning Compiled Python Files
+        run: make clean
