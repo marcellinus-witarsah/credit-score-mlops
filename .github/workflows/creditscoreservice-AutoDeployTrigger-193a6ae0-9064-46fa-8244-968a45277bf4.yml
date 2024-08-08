@@ -1,0 +1,43 @@
+name: Trigger auto deployment for creditscoreservice
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ api-dev ]
+    paths:
+    - 'api/**'
+    - '.github/workflows/creditscoreservice-AutoDeployTrigger-193a6ae0-9064-46fa-8244-968a45277bf4.yml'
+
+  # Allow manual trigger 
+  workflow_dispatch:
+      
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.CREDITSCORESERVICE_AZURE_CREDENTIALS }}
+
+      - name: Build and push container image to registry
+        uses: azure/container-apps-deploy-action@v2
+        with:
+          appSourcePath: ${{ github.workspace }}/api 
+          registryUrl: creditscorecr.azurecr.io
+          registryUsername: ${{ secrets.CREDITSCORESERVICE_REGISTRY_USERNAME }}
+          registryPassword: ${{ secrets.CREDITSCORESERVICE_REGISTRY_PASSWORD }}
+          containerAppName: creditscoreservice
+          resourceGroup: personalprojects
+          imageToBuild: creditscorecr.azurecr.io/creditscoreservice:${{ github.sha }}
+          
+            
+
+     
+
