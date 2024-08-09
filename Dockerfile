@@ -7,7 +7,7 @@ WORKDIR /app
 
 # Set working from directory
 COPY api/api.py /app/api.py
-COPY api/requirements.txt /app/requirements.txt
+COPY requirements.txt /app/requirements.txt
 COPY credit_score_mlops /app/credit_score_mlops
 COPY params.yaml /app/params.yaml
 COPY api.yaml /app/api.yaml
@@ -17,7 +17,6 @@ COPY setup.cfg /app/setup.cfg
 COPY Makefile /app/Makefile
 
 # Run make requirements
-RUN ls
 RUN sudo apt-get -y install make
 RUN make requirements
 
