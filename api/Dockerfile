@@ -17,6 +17,7 @@ COPY setup.cfg /app/setup.cfg
 COPY Makefile /app/Makefile
 
 # Run make requirements
+RUN ls
 RUN sudo apt-get -y install make
 RUN make requirements
 
