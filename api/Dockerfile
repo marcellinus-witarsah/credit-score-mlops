@@ -6,15 +6,15 @@ RUN apt-get update && apt-get -y install sudo
 WORKDIR /app
 
 # Set working from directory
-COPY ./api/api.py /app/api.py
-COPY ./api/requirements.txt /app/requirements.txt
-COPY ./credit_score_mlops /app/credit_score_mlops
-COPY ./params.yaml /app/params.yaml
-COPY ./api.yaml /app/api.yaml
-COPY ./README.md /app/README.md
-COPY ./pyproject.toml /app/pyproject.toml
-COPY ./setup.cfg /app/setup.cfg
-COPY ./Makefile /app/Makefile
+COPY api/api.py /app/api.py
+COPY api/requirements.txt /app/requirements.txt
+COPY credit_score_mlops /app/credit_score_mlops
+COPY params.yaml /app/params.yaml
+COPY api.yaml /app/api.yaml
+COPY README.md /app/README.md
+COPY pyproject.toml /app/pyproject.toml
+COPY setup.cfg /app/setup.cfg
+COPY Makefile /app/Makefile
 
 # Run make requirements
 RUN sudo apt-get -y install make
