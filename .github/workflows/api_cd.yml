@@ -36,8 +36,3 @@ jobs:
           containerAppName: creditscoreservice
           resourceGroup: personalprojects
           imageToBuild: creditscorecr.azurecr.io/creditscoreservice:${{ github.sha }}
-          
-            
-
-     
-
