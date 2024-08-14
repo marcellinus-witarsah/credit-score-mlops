@@ -1,6 +1,5 @@
 # Using python image
-FROM "python:3.10.14-slim"
-RUN apt-get update && apt-get -y install sudo
+FROM python:3.10.14-slim
 
 # Set the current working directory
 WORKDIR /app
@@ -16,11 +15,10 @@ COPY pyproject.toml /app/pyproject.toml
 COPY setup.cfg /app/setup.cfg
 COPY Makefile /app/Makefile
 
-# Run make requirements
-RUN sudo apt-get -y install make
-RUN make requirements
+# Install requirements
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose port 80 to the outside world
+# Expose port 8080 to the outside world
 EXPOSE 8080
 
 # Run FastAPI app
