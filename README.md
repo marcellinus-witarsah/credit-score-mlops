@@ -1,62 +1,33 @@
-# credit-score-mlops
+# Credit Score MLOps
+<p align="center">
+    <img src="https://www.simmonsbank.com/siteassets/content-hub/learning-center/credit-score-image.jpg" alt="Credit Score Image" height="500">
+    <p align="center">
+        Figure 1: Credit Score Illustration (<a href="https://www.simmonsbank.com/siteassets/content-hub/learning-center/credit-score-image.jpg">Source</a>).
+    </p>
+</p>
 
-<a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
-    <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
-</a>
+## Project Summary
+In this project, we developed a credit score model leveraging Logistic Regression and Weight of Evidence techniques. The scoring methodology is based on the "point to double the odds" approach, utilizing Logistic Regression parameters, Weight of Evidence, and specific user-defined constraints to assign credit points for based on each predictor variable. The development of credit score model are done manually without the help of `optbinning` (*like the previous one*).
 
-A short description of the project.
+## Project Scope
+The main objective is not only to create a reliable credit score model and develop a comprehensive credit scorecard, but also emphasizes on model deployment through web application. Some of the concepts involve python **package development, continuous integration, and continuous deployment**.
 
-## Project Organization
 
+## Tools and Technologies
+The project is built using Python 3.10, with the following libraries and tools:
+1. `pandas` and `numpy` for data manipulation.
+2. `matplotlib` and `seaborn` for data visualization. 
+3. `scikit-learn` for training and evaluation credit score model.
+4. `fast-api` for API development.
+5. `streamlit` for the development of the web application.
+6. `azure cloud services` for hosting API services.
+
+## Installation and Setup
+To run this project locally, you can use [Anaconda](https://docs.anaconda.com/free/anaconda/install/). Ensure your Python version is 3.10. Recommended using **linux environment** for setting up  environment. Then, install the required libraries from the requirements.txt file:
+```bash
+  make create_environment  # create conda environment
+  conda activate credit-score-mlops  # access the environment
+  make requirements  # install all libraries from the requirements.txt file
+  make create_ipykernel  # create ipykernel
 ```
-├── LICENSE            <- Open-source license if one is chosen
-├── Makefile           <- Makefile with convenience commands like `make data` or `make train`
-├── README.md          <- The top-level README for developers using this project.
-├── data
-│   ├── external       <- Data from third party sources.
-│   ├── interim        <- Intermediate data that has been transformed.
-│   ├── processed      <- The final, canonical data sets for modeling.
-│   └── raw            <- The original, immutable data dump.
-│
-├── docs               <- A default mkdocs project; see mkdocs.org for details
-│
-├── models             <- Trained and serialized models, model predictions, or model summaries
-│
-├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-│                         the creator's initials, and a short `-` delimited description, e.g.
-│                         `1.0-jqp-initial-data-exploration`.
-│
-├── pyproject.toml     <- Project configuration file with package metadata for credit_score_mlops
-│                         and configuration for tools like black
-│
-├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-│
-├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-│   └── figures        <- Generated graphics and figures to be used in reporting
-│
-├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-│                         generated with `pip freeze > requirements.txt`
-│
-├── setup.cfg          <- Configuration file for flake8
-│
-└── credit_score_mlops                <- Source code for use in this project.
-    │
-    ├── __init__.py    <- Makes credit_score_mlops a Python module
-    │
-    ├── data           <- Scripts to download or generate data
-    │   └── make_dataset.py
-    │
-    ├── features       <- Scripts to turn raw data into features for modeling
-    │   └── build_features.py
-    │
-    ├── models         <- Scripts to train models and then use trained models to make
-    │   │                 predictions
-    │   ├── predict_model.py
-    │   └── train_model.py
-    │
-    └── visualization  <- Scripts to create exploratory and results oriented visualizations
-        └── visualize.py
-```
-
---------
-
+With this you can use run the Python notebook using the exact same dependencies that I used for this project. For the web application you can access through this link https://huggingface.co/spaces/marcellinus-witarsah/credit-score-app-v2.
